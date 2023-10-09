@@ -4,7 +4,7 @@ import axios from "axios";
  * Variables de entorno de la aplicación
  */
 export const config = {
-    URL_API: process.env.URL_API || "http://localhost:3001/api/",
+    URL_API: import.meta.env.URL_API || "http://localhost:3001/api/",
 };
 
 /**
