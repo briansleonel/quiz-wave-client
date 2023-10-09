@@ -4,6 +4,8 @@ import logo from "../../assets/quiz-2.jpg";
 import ButtonPrimary from "../Button/ButtonPrimary";
 import { List, X } from "react-bootstrap-icons";
 import NavLinks from "./NavLinks";
+import Username from "./Username";
+import GroupButtonsNavbar from "./GroupButtonsNavbar";
 
 export default function Navbar() {
     const [showSidebar, setShowSidebar] = useState(false);
@@ -29,12 +31,10 @@ export default function Navbar() {
                         <List className="w-full h-full" />
                     </ButtonPrimary>
 
-                    {/*}
                     <div className="hidden md:flex items-center gap-4">
                         <Username />
-                        <ButtonsLoginRegisterLogout />
+                        <GroupButtonsNavbar />
                     </div>
-            */}
                     {/** Menu --- lo muestro si un usuario esta autenticado  */}
 
                     <Sidebar
@@ -83,12 +83,12 @@ const Sidebar = ({
                 />
 
                 {/** Buttons Login/Register */}
-                {/*showSidebar && (
+                {showSidebar && (
                     <div className="flex flex-col gap-4 md:hidden md:gap-2 px-12 pt-4 pb-12 md:p-4">
                         <Username />
-                        <ButtonsLoginRegisterLogout />
+                        <GroupButtonsNavbar />
                     </div>
-                )*/}
+                )}
             </div>
         </aside>
     );
