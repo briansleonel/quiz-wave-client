@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import React from "react";
 import {
@@ -10,6 +9,8 @@ import {
     Speedometer2,
 } from "react-bootstrap-icons";
 import { NavLink } from "../../types/util";
+import { useAppSelector } from "../../store/hooks.redux";
+import { Role } from "../../libs/enums/role.enum";
 
 const menuItems: Array<NavLink> = [
     { name: "Inicio", icon: House, href: "/" },
@@ -27,79 +28,51 @@ export default function NavLinks({
     showSidebar: boolean;
     setShowSidebar: (state: boolean) => void;
 }) {
-    //const [isClient, setIsClient] = useState(false);
-    //const { isAuthenticated, user } = useAppSelector((state) => state.auth);
+    const { isAuthenticated, user } = useAppSelector((state) => state.auth);
 
-    /*
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
-    */
     return (
         <>
             <div className="flex flex-col gap-2 relative">
                 {menuItems.map((link, i) => {
-                    return (
-                        <LinkComponent
-                            key={link.name}
-                            i={i}
-                            link={link}
-                            setShowSidebar={setShowSidebar}
-                            showSidebar={showSidebar}
-                        />
-                    );
+                    if (link.href === "/") {
+                        return (
+                            <LinkComponent
+                                key={link.name}
+                                i={i}
+                                link={link}
+                                setShowSidebar={setShowSidebar}
+                                showSidebar={showSidebar}
+                            />
+                        );
+                    } else if (isAuthenticated) {
+                        if (link.href === "/dashboard/user") {
+                            if (user.role === Role.ADMIN) {
+                                return (
+                                    <LinkComponent
+                                        key={link.name}
+                                        i={i}
+                                        link={link}
+                                        setShowSidebar={setShowSidebar}
+                                        showSidebar={showSidebar}
+                                    />
+                                );
+                            } else return null;
+                        }
+                        return (
+                            <LinkComponent
+                                key={link.name}
+                                i={i}
+                                link={link}
+                                setShowSidebar={setShowSidebar}
+                                showSidebar={showSidebar}
+                            />
+                        );
+                    }
                 })}
             </div>
         </>
     );
 }
-
-/*
-return (
-        <>
-            {isClient && (
-                <div className="flex flex-col gap-2 relative">
-                    {menuItems.map((link, i) => {
-                        if (link.href === "/") {
-                            return (
-                                <LinkComponent
-                                    key={link.name}
-                                    i={i}
-                                    link={link}
-                                    setShowSidebar={setShowSidebar}
-                                    showSidebar={showSidebar}
-                                />
-                            );
-                        } else if (isAuthenticated) {
-                            if (link.href === "/dashboard/user") {
-                                if (user.role === Role.ADMIN) {
-                                    return (
-                                        <LinkComponent
-                                            key={link.name}
-                                            i={i}
-                                            link={link}
-                                            setShowSidebar={setShowSidebar}
-                                            showSidebar={showSidebar}
-                                        />
-                                    );
-                                } else return null;
-                            }
-                            return (
-                                <LinkComponent
-                                    key={link.name}
-                                    i={i}
-                                    link={link}
-                                    setShowSidebar={setShowSidebar}
-                                    showSidebar={showSidebar}
-                                />
-                            );
-                        }
-                    })}
-                </div>
-            )}
-        </>
-    );
-*/
 
 function LinkComponent({
     i,
