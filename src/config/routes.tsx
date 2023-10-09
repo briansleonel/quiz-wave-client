@@ -3,11 +3,12 @@ import HomePage from "../app/HomePage";
 import LoginPage from "../app/login/LoginPage";
 import RegisterPage from "../app/register/RegisterPage";
 import DashboardPage from "../app/dashboard/DashboardPage";
+import LayoutMain from "../components/Layout/LayoutMain";
 
 const routes: Array<RouteObject> = [
     {
         path: "/",
-        //element: <Layout />,
+        element: <LayoutMain />,
         //errorElement: <ErrorPage />,
         children: [
             {
