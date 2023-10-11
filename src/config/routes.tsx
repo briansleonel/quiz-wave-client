@@ -4,15 +4,17 @@ import LoginPage from "../app/login/LoginPage";
 import RegisterPage from "../app/register/RegisterPage";
 import DashboardPage from "../app/dashboard/DashboardPage";
 import LayoutMain from "../components/Layout/LayoutMain";
+import CategoryPage from "../app/dashboard/category/CategoryPage";
+import QuestionPage from "../app/dashboard/question/QuestionPage";
+import UserPage from "../app/dashboard/user/UserPage";
 
 const routes: Array<RouteObject> = [
     {
-        path: "/",
         element: <LayoutMain />,
         //errorElement: <ErrorPage />,
         children: [
             {
-                path: "",
+                path: "/",
                 element: <HomePage />,
                 index: true,
             },
@@ -27,6 +29,20 @@ const routes: Array<RouteObject> = [
             {
                 path: "dashboard",
                 element: <DashboardPage />,
+                children: [
+                    {
+                        path: "category",
+                        element: <CategoryPage />,
+                    },
+                    {
+                        path: "question",
+                        element: <QuestionPage />,
+                    },
+                    {
+                        path: "user",
+                        element: <UserPage />,
+                    },
+                ],
             },
         ],
     },
