@@ -5,6 +5,7 @@ import { toastError, toastSuccess } from "../../components/Sonner/sonner.toast";
 import userService from "../../services/user.service";
 import { deleteAuthLocalStorage } from "../../libs/state.localstorage";
 import { useNavigate } from "react-router-dom";
+import { deleteTokenLocalStorage } from "../../libs/token.localStorage";
 
 /**
  * Hook personalizado que maneja el logout de un usuario en la aplicación.
@@ -24,6 +25,7 @@ export function useLogoutMutation() {
             try {
                 dispatch(logout()); // elimino los datos de la store
                 deleteAuthLocalStorage(); // elimino los datos de localstorage
+                deleteTokenLocalStorage(); // elimino datos del token en localsorage
                 toastSuccess(data.message);
                 navigate("/login"); // redirecciono a la página /dashboard
                 //queryCache.clear();
