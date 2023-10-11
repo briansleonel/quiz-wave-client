@@ -1,4 +1,5 @@
 import axios from "axios";
+import { loadStateTokenLocalStorage } from "../libs/token.localstorage";
 
 /**
  * Variables de entorno de la aplicación
@@ -12,6 +13,9 @@ export const config = {
  */
 export const __instanceAxios = axios.create({
     baseURL: config.URL_API,
+    headers: {
+        Authorization: `Bearer ${loadStateTokenLocalStorage() ?? ""}`,
+    },
     //withCredentials: true,
 });
 
