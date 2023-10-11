@@ -2,7 +2,7 @@ import { PersonFill } from "react-bootstrap-icons";
 import { useLoginMutation } from "../../../hooks/users/useLogin";
 import ButtonPrimary from "../../Button/ButtonPrimary";
 import { toastInformation } from "../../Sonner/sonner.toast";
-import { useFormInput } from "../../../hooks/users/inputs/useFormInput";
+import { useFormInput } from "../../../hooks/inputs/useFormInput";
 import { InputUnderline } from "../Input/InputUnderline";
 
 export default function LoginForm() {
