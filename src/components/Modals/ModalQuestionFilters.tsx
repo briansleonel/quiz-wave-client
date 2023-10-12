@@ -25,8 +25,8 @@ const allCategories: IQuestionCategory = {
 };
 
 const users: Array<IData> = [
-    { label: "Todos", value: "all" },
     { label: "Solo mías", value: loadStateAuthLocalStorage()?._id ?? "" },
+    { label: "Todos", value: "all" },
 ];
 
 export default function ModalQuestionFilters() {
@@ -58,15 +58,9 @@ export default function ModalQuestionFilters() {
     }
 
     useEffect(() => {
-        /*
-        const mias = { label: "Solo mías", value: user._id };
-
-        if (user.role === Role.ADMIN && !users.includes(mias)) {
-            console.log("Asigna mías");
-
-            users.unshift(mias);
-            setSelectedUser(mias);
-        }*/
+        if (user.role === Role.ADMIN) {
+            setSelectedUser(users[1]);
+        }
     }, [user]);
 
     /**
