@@ -1,7 +1,7 @@
-
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { StateFilter } from "../../types/filters";
 import { Verified } from "./filters.slice";
+import { loadStateAuthLocalStorage } from "../../libs/state.localstorage";
 
 interface State extends StateFilter {
     category: string;
@@ -13,8 +13,7 @@ const initialState: State = {
     category: "all",
     recents: true,
     searchText: "",
-    //user: loadStateAuthLocalStorage()?._id || "",
-    user: "",
+    user: loadStateAuthLocalStorage()?._id || "",
     verified: Verified.ALL,
 };
 
@@ -55,7 +54,7 @@ const questionFilterSlice = createSlice({
         resetQuestionFilters: (state) => {
             state.category = "all";
             state.recents = true;
-            //state.user = loadStateAuthLocalStorage()?._id || "";
+            state.user = loadStateAuthLocalStorage()?._id || "";
             state.verified = Verified.ALL;
         },
     },
