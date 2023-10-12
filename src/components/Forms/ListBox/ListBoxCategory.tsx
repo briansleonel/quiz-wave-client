@@ -28,18 +28,12 @@ export default function ListBoxCategory({
 
     useEffect(() => {
         if (data && options.length <= 0) {
-            if (newOption) setOptions(addNewOption(newOption, data));
-            else setOptions(data);
+            if (newOption) {
+                const opts = [newOption, ...data];
+                setOptions(opts);
+            }
         }
     }, [data, newOption, options.length]);
-
-    const addNewOption = (
-        addOption: IQuestionCategory,
-        data: Array<IQuestionCategory>
-    ) => {
-        data.unshift(addOption);
-        return data;
-    };
 
     const mapOptions = (data: Array<IQuestionCategory>) => {
         return data.map((category, index) => (
