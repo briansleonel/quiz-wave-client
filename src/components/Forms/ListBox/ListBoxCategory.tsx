@@ -31,6 +31,8 @@ export default function ListBoxCategory({
             if (newOption) {
                 const opts = [newOption, ...data];
                 setOptions(opts);
+            } else {
+                setOptions(data);
             }
         }
     }, [data, newOption, options.length]);
