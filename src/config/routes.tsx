@@ -7,6 +7,7 @@ import LayoutMain from "../components/Layout/LayoutMain";
 import CategoryPage from "../app/dashboard/category/CategoryPage";
 import QuestionPage from "../app/dashboard/question/QuestionPage";
 import UserPage from "../app/dashboard/user/UserPage";
+import AccountPage from "../app/dashboard/account/AccountPage";
 
 const routes: Array<RouteObject> = [
     {
@@ -41,6 +42,10 @@ const routes: Array<RouteObject> = [
                     {
                         path: "user",
                         element: <UserPage />,
+                    },
+                    {
+                        path: "account",
+                        element: <AccountPage />,
                     },
                 ],
             },
