@@ -1,8 +1,8 @@
 import { isAxiosError } from "axios";
 import { APIResponse, PaginationFetch } from "../types/api";
-import { Verified } from "../store/features/filters.slice";
 import { ILogin, IUser } from "../types/user";
 import { __instanceAxios, endpointsAPI } from "../config/config";
+import { Verified } from "../libs/enums/filter.enum";
 
 export interface QueryFetch extends PaginationFetch {
     verified: Verified;

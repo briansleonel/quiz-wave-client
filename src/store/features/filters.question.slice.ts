@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { StateFilter } from "../../types/filters";
-import { Verified } from "./filters.slice";
 import { loadStateAuthLocalStorage } from "../../libs/state.localstorage";
+import { Verified } from "../../libs/enums/filter.enum";
 
 interface State extends StateFilter {
     category: string;

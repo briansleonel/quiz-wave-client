@@ -1,10 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-
-export enum Verified {
-    ALL = "all",
-    VERIFIED = "verified",
-    NOVERIFIED = "no-verified",
-}
+import { Verified } from "../../libs/enums/filter.enum";
 
 interface State {
     verified: Verified;
