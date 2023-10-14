@@ -14,6 +14,8 @@ import HomePage from "../../app/HomePage";
 import LoginPage from "../../app/login/LoginPage";
 import RegisterPage from "../../app/register/RegisterPage";
 import { ProtectedRouteLayout } from "./ProtectedRouteLayout";
+import CollectionPage from "../../app/dashboard/collection/CollectionPage";
+import CollectionABMPage from "../../app/dashboard/collection/CollectionABMPage";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
@@ -30,6 +32,11 @@ export const router = createBrowserRouter(
                     <Route path="question/:id" element={<QuestionIDPage />} />
                     <Route path="user" element={<UserPage />} />
                     <Route path="account" element={<AccountPage />} />
+                    <Route path="collection" element={<CollectionPage />} />
+                    <Route
+                        path="collection/:id"
+                        element={<CollectionABMPage />}
+                    />
                 </Route>
             </Route>
         </>
