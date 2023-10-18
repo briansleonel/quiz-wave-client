@@ -13,7 +13,7 @@ export default function Navbar() {
 
     return (
         <>
-            {!location.pathname.startsWith("/game") && (
+            {!location.pathname.startsWith("/trivia") && (
                 <nav className="w-full h-16 flex justify-between z-20 p-4 bg-stone-950 text-white md:px-16 lg:px-32 sticky top-0">
                     {/** Logo main */}
                     <Link
