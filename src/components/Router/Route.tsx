@@ -16,6 +16,8 @@ import RegisterPage from "../../app/register/RegisterPage";
 import { ProtectedRouteLayout } from "./ProtectedRouteLayout";
 import CollectionPage from "../../app/dashboard/collection/CollectionPage";
 import CollectionABMPage from "../../app/dashboard/collection/CollectionABMPage";
+import TriviaPage from "../../app/trivia/TriviaPage";
+import StartTriviaPage from "../../app/trivia/start/StartTriviaPage";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
@@ -24,6 +26,8 @@ export const router = createBrowserRouter(
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route path="/trivia" element={<TriviaPage />} />
+                <Route path="/trivia/start" element={<StartTriviaPage />} />
 
                 <Route path="/dashboard" element={<ProtectedRouteLayout />}>
                     <Route path="" element={<DashboardPage />} />
