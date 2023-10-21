@@ -1,16 +1,16 @@
-import { IQuestionId } from "./question";
+import { ICollectionQuestionWithId } from "./question";
 
 export interface ICollection {
     name: string;
     description: string;
-    questions: Array<ICollectionQuestion>;
+    questions: Array<ICollectionQuestionWithId>;
+    user?: string;
 }
 
 export interface ICollectionWithId extends ICollection {
     _id: string;
 }
 
-interface ICollectionQuestion {
-    question: IQuestionId;
-    duration: number;
+interface ICollectionWithUpdatedAt extends ICollectionWithId {
+    updatedAt: string;
 }
