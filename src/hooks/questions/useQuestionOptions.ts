@@ -102,6 +102,7 @@ export function useQuestionOption({ correct, optionsGroup }: Props) {
         editOption,
         correctOption,
         setCorrectOption,
+        setOptions,
         handlerAddOption,
         handlerCancelEditOption,
         handlerEditOption,
