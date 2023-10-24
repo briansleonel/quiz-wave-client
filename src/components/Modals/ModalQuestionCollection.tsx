@@ -9,12 +9,20 @@ import OptionsButtonGroup from "../Forms/QuestionForm/OptionsButtonGroup";
 import { useQuestionOption } from "../../hooks/questions/useQuestionOptions";
 import { TextArea } from "../Forms/Input/TextArea";
 import { ICollectionQuestionWithId } from "../../types/question";
+import { toastError } from "../Sonner/sonner.toast";
+import { orderOptions } from "../../libs/questions.libs";
 
 interface Props {
     question?: ICollectionQuestionWithId;
+    questions: Array<ICollectionQuestionWithId>;
+    setQuestions: (questions: Array<ICollectionQuestionWithId>) => void;
 }
 
-export default function ModalQuestionCollection({ question }: Props) {
+export default function ModalQuestionCollection({
+    question,
+    questions,
+    setQuestions,
+}: Props) {
     const { closeModal, openModal, showModal } = useModal();
 
     const inputQuestion = useFormInput(question ? question.question : "");
@@ -31,6 +39,7 @@ export default function ModalQuestionCollection({ question }: Props) {
         editOption,
         correctOption,
         setCorrectOption,
+        setOptions,
         handlerAddOption,
         handlerCancelEditOption,
         handlerDeleteOption,
@@ -40,16 +49,73 @@ export default function ModalQuestionCollection({ question }: Props) {
         correct: question ? question.options[question.correct] : "",
     });
 
+    /**
+     * Permite realizar el envío de los datos del formulario
+     * @param e Evento de formulario
+     */
     const handleSubmit = (
         e: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
         e.preventDefault();
 
-        closeModal();
+        if (inputQuestion.inputProps.value) {
+            if (options.length >= 2) {
+                if (correctOption !== "") {
+                    if (question) {
+                        /*
+                        const updateQuestion = convertToQuestionCollection({
+                            _id: question._id,
+                            question: inputQuestion.inputProps.value,
+                            description: inputDescription.inputProps.value,
+                            options,
+                            correctOption,
+                            duration: Number(inputDuration.inputProps.value),
+                        });
+                        */
+                        question.options = orderOptions(options, correctOption);
+                        question.description =
+                            inputDescription.inputProps.value;
+                        question.question = inputQuestion.inputProps.value;
+                        question.duration = Number(
+                            inputDuration.inputProps.value
+                        );
+                        question.correct = 0;
+
+                        handleCancel();
+                    } else {
+                        const newQuestion: ICollectionQuestionWithId = {
+                            _id: "",
+                            question: inputQuestion.inputProps.value,
+                            description: inputDescription.inputProps.value,
+                            options: orderOptions(options, correctOption),
+                            correct: 0,
+                            duration: Number(inputDuration.inputProps.value),
+                        };
+                        setQuestions([...questions, newQuestion]);
+                        handleCancel();
+                    }
+                } else {
+                    toastError("Debe seleccionar una opción como correcta");
+                }
+            } else {
+                toastError("Debe ingresar al menos 2 opciones");
+            }
+        } else {
+            toastError("Debe ingresar una pregunta");
+        }
     };
 
     const handleCancel = () => {
+        cleanInputs();
         closeModal();
+    };
+
+    const cleanInputs = () => {
+        inputQuestion.setInput("");
+        inputDescription.setInput("");
+        inputDuration.setInput("20");
+        setOptions([]);
+        setCorrectOption("");
     };
 
     return (
