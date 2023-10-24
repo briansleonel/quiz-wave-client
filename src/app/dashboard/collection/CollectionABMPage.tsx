@@ -5,11 +5,16 @@ import { useState } from "react";
 import { CircleFill, Trash3 } from "react-bootstrap-icons";
 import { ICollectionWithUpdatedAt } from "../../../types/collection";
 import ModalCollectionName from "../../../components/Modals/ModalCollectionName";
+import { ICollectionQuestionWithId } from "../../../types/question";
+import ModalQuestionCollection from "../../../components/Modals/ModalQuestionCollection";
 
 export default function CollectionABMPage() {
     const params = useParams<{ id: string }>();
 
     const [collection, setCollection] = useState<ICollectionWithUpdatedAt>();
+
+    const [questions, setQuestions] =
+        useState<Array<ICollectionQuestionWithId>>();
 
     const changeTitleAndDescription = (title: string, description: string) => {
         setCollection({ ...collection!, name: title, description });
@@ -17,8 +22,8 @@ export default function CollectionABMPage() {
 
     return (
         <ContainerUtil>
-            <section className="w-full grid grid-cols-4 min-h-max gap-8">
-                <div className="flex flex-col gap-4 bg-white rounded p-6 shadow-md">
+            <main className="w-full grid grid-cols-4 min-h-max gap-8">
+                <section className="flex flex-col gap-4 bg-white rounded p-6 shadow-md">
                     <div className="flex items-start justify-between gap-2">
                         <h1 className="text-3xl font-medium text-neutral-900">
                             {collection?.name ?? "Titulo de la colección"}
@@ -27,7 +32,8 @@ export default function CollectionABMPage() {
 
                     <div className="flex justify-between gap-2">
                         <span className="text-xs text-neutral-500 flex items-center gap-2">
-                            <CircleFill className="w-2 text-neutral-400" /> Actualizado hace 2 semanas
+                            <CircleFill className="w-2 text-neutral-400" />{" "}
+                            Actualizado hace 2 semanas
                         </span>
                         <div className="flex gap-2">
                             <ModalCollectionName
@@ -57,9 +63,14 @@ export default function CollectionABMPage() {
                             </p>
                         </div>
                     )}
-                </div>
-                <div className="col-span-3">Questions</div>
-            </section>
+                </section>
+                <section className="col-span-3">
+                    <div className="flex justify-between">
+                        <span>Preguntas ({questions?.length ?? 0})</span>
+                        <ModalQuestionCollection />
+                    </div>
+                </section>
+            </main>
         </ContainerUtil>
     );
 }
