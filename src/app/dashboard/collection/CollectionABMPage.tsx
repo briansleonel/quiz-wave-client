@@ -1,20 +1,29 @@
 import { useParams } from "react-router-dom";
 import ContainerUtil from "../../../components/Layout/ContainerUtil";
 import ButtonPrimary from "../../../components/Button/ButtonPrimary";
-import { useState } from "react";
-import { CircleFill, Trash3 } from "react-bootstrap-icons";
+import { Fragment, useState } from "react";
+import {
+    Check,
+    ChevronRight,
+    CircleFill,
+    Trash3,
+    X,
+} from "react-bootstrap-icons";
 import { ICollectionWithUpdatedAt } from "../../../types/collection";
 import ModalCollectionName from "../../../components/Modals/ModalCollectionName";
 import { ICollectionQuestionWithId } from "../../../types/question";
 import ModalQuestionCollection from "../../../components/Modals/ModalQuestionCollection";
+import CardContainer from "../../../components/Cards/CardContainer";
+import { Disclosure, Transition } from "@headlessui/react";
 
 export default function CollectionABMPage() {
     const params = useParams<{ id: string }>();
 
     const [collection, setCollection] = useState<ICollectionWithUpdatedAt>();
 
-    const [questions, setQuestions] =
-        useState<Array<ICollectionQuestionWithId>>();
+    const [questions, setQuestions] = useState<
+        Array<ICollectionQuestionWithId>
+    >([]);
 
     const changeTitleAndDescription = (title: string, description: string) => {
         setCollection({ ...collection!, name: title, description });
@@ -23,7 +32,7 @@ export default function CollectionABMPage() {
     return (
         <ContainerUtil>
             <main className="w-full grid grid-cols-4 min-h-max gap-8">
-                <section className="flex flex-col gap-4 bg-white rounded p-6 shadow-md">
+                <section className="flex flex-col gap-4 bg-white rounded p-6 shadow-md h-fit">
                     <div className="flex items-start justify-between gap-2">
                         <h1 className="text-3xl font-medium text-neutral-900">
                             {collection?.name ?? "Titulo de la colección"}
@@ -64,10 +73,46 @@ export default function CollectionABMPage() {
                         </div>
                     )}
                 </section>
-                <section className="col-span-3">
+                <section className="col-span-3 flex flex-col gap-4">
                     <div className="flex justify-between">
-                        <span>Preguntas ({questions?.length ?? 0})</span>
-                        <ModalQuestionCollection />
+                        <span className="text-neutral-600 font-medium">
+                            Preguntas ({questions?.length ?? 0})
+                        </span>
+                        <ModalQuestionCollection
+                            questions={questions ?? []}
+                            setQuestions={setQuestions}
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-4">
+                        {questions.map((question, index) => (
+                            <Disclosure as={Fragment} key={index}>
+                                {({ open }) => (
+                                    <article className="w-full flex flex-col justify-between gap-2 bg-white rounded border shadow shadow-neutral-200">
+                                        <Disclosure.Button className="flex p-4">
+                                            <h6 className="text-neutral-800 font-medium text-lg">
+                                                {index + 1} -{" "}
+                                                {question.question}
+                                            </h6>
+                                        </Disclosure.Button>
+                                        <Disclosure.Panel className="p-4 pt-0 flex flex-col gap-2">
+                                            {question.options.map((opt, i) => (
+                                                <div key={i} className="flex gap-4 items-center">
+                                                    {question.correct === i ? (
+                                                        <Check className="w-6 h-fit text-green-500" />
+                                                    ) : (
+                                                        <X className="w-6 h-fit text-red-500" />
+                                                    )}
+                                                    <span className="text-neutral-700">
+                                                        {opt}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </Disclosure.Panel>
+                                    </article>
+                                )}
+                            </Disclosure>
+                        ))}
                     </div>
                 </section>
             </main>
