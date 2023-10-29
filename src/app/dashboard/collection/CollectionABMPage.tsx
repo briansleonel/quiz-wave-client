@@ -22,6 +22,10 @@ export default function CollectionABMPage() {
         setCollection({ ...collection!, name: title, description });
     };
 
+    const hanldeAddQuestion = (question: ICollectionQuestionWithId) => {
+        setQuestions([...questions, question]);
+    };
+
     const handleUpdateQuestion = (
         updatedQuestion: ICollectionQuestionWithId,
         index: number
@@ -93,8 +97,7 @@ export default function CollectionABMPage() {
                             Preguntas ({questions?.length ?? 0})
                         </span>
                         <ModalQuestionCollection
-                            questions={questions ?? []}
-                            setQuestions={setQuestions}
+                            hanldeAddQuestion={hanldeAddQuestion}
                         />
                     </div>
 
