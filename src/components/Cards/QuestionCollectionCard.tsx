@@ -1,12 +1,14 @@
-import { Check, X } from "react-bootstrap-icons";
+import { Check, Trash3, X } from "react-bootstrap-icons";
 import { ICollectionQuestionWithId } from "../../types/question";
 import ModalQuestionCollectionUpdate from "../Modals/ModalQuestionCollectionUpdate";
 import CardContainer from "./CardContainer";
+import ButtonPrimary from "../Button/ButtonPrimary";
 
 export default function QuestionCollectionCard({
     question,
     index,
     handleUpdateQuestion,
+    handleDeleteQuestion,
 }: {
     question: ICollectionQuestionWithId;
     index: number;
@@ -14,6 +16,7 @@ export default function QuestionCollectionCard({
         updatedQuestion: ICollectionQuestionWithId,
         index: number
     ) => void;
+    handleDeleteQuestion: (question: ICollectionQuestionWithId) => void;
 }) {
     return (
         <CardContainer className="!p-0">
@@ -22,11 +25,21 @@ export default function QuestionCollectionCard({
                     {index + 1} - {question.question}
                 </h6>
 
-                <ModalQuestionCollectionUpdate
-                    question={question}
-                    index={index}
-                    handleUpdateQuestion={handleUpdateQuestion}
-                />
+                <div className="flex gap-2">
+                    <ModalQuestionCollectionUpdate
+                        question={question}
+                        index={index}
+                        handleUpdateQuestion={handleUpdateQuestion}
+                    />
+
+                    <ButtonPrimary
+                        className="bg-transparent !text-neutral-600 text-lg hover:bg-transparent hover:!text-neutral-800 hover:shadow"
+                        title="Eliminar"
+                        onClick={() => handleDeleteQuestion(question)}
+                    >
+                        <Trash3 />
+                    </ButtonPrimary>
+                </div>
             </div>
             <div className="p-4 pt-0 flex flex-col gap-2">
                 {question.options.map((opt, i) => (
