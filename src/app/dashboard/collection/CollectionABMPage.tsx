@@ -2,14 +2,11 @@ import { useParams } from "react-router-dom";
 import ContainerUtil from "../../../components/Layout/ContainerUtil";
 import ButtonPrimary from "../../../components/Button/ButtonPrimary";
 import { useState } from "react";
-import { Check, CircleFill, Trash3, X } from "react-bootstrap-icons";
+import { CircleFill, Trash3 } from "react-bootstrap-icons";
 import { ICollectionWithUpdatedAt } from "../../../types/collection";
 import ModalCollectionName from "../../../components/Modals/ModalCollectionName";
 import { ICollectionQuestionWithId } from "../../../types/question";
 import ModalQuestionCollection from "../../../components/Modals/ModalQuestionCollection";
-import { useEffect } from "react";
-import CardContainer from "../../../components/Cards/CardContainer";
-import ModalQuestionCollectionUpdate from "../../../components/Modals/ModalQuestionCollectionUpdate";
 import QuestionCollectionCard from "../../../components/Cards/QuestionCollectionCard";
 
 export default function CollectionABMPage() {
@@ -36,6 +33,12 @@ export default function CollectionABMPage() {
 
             return q;
         });
+
+        setQuestions(updateQuestionArray);
+    };
+
+    const handleDeleteQuestion = (question: ICollectionQuestionWithId) => {
+        const updateQuestionArray = questions.filter((q) => q !== question);
 
         setQuestions(updateQuestionArray);
     };
@@ -100,6 +103,7 @@ export default function CollectionABMPage() {
                             <QuestionCollectionCard
                                 key={index}
                                 handleUpdateQuestion={handleUpdateQuestion}
+                                handleDeleteQuestion={handleDeleteQuestion}
                                 question={question}
                                 index={index}
                             />
