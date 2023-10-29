@@ -9,14 +9,10 @@ import { orderOptions } from "../../libs/questions.libs";
 import QuestionCollectionForm from "../Forms/QuestionCollectionForm/QuestionCollectionForm";
 
 interface Props {
-    questions: Array<ICollectionQuestionWithId>;
-    setQuestions: (questions: Array<ICollectionQuestionWithId>) => void;
+    hanldeAddQuestion: (question: ICollectionQuestionWithId) => void;
 }
 
-export default function ModalQuestionCollection({
-    questions,
-    setQuestions,
-}: Props) {
+export default function ModalQuestionCollection({ hanldeAddQuestion }: Props) {
     const { closeModal, openModal, showModal } = useModal();
 
     const inputQuestion = useFormInput("");
@@ -60,7 +56,8 @@ export default function ModalQuestionCollection({
                         duration: Number(inputDuration.inputProps.value),
                     };
 
-                    setQuestions([...questions, newQuestion]);
+                    //setQuestions([...questions, newQuestion]);
+                    hanldeAddQuestion(newQuestion);
 
                     cleanInputs();
                     closeModal();
