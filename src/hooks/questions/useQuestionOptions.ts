@@ -34,7 +34,7 @@ export function useQuestionOption({ correct, optionsGroup }: Props) {
     /**
      * Evento para agregar una nueva opción a la lista de opciones
      */
-    function handlerAddOption() {
+    function handleAddOption() {
         // Verifico que el input no se encuentre vacío
         if (inputOptions.inputProps.value !== "") {
             if (options && options.length < 4) {
@@ -67,8 +67,8 @@ export function useQuestionOption({ correct, optionsGroup }: Props) {
     /**
      * Manejador para cancelar la edición de una opción
      */
-    function handlerCancelEditOption() {
-        handlerAddOption();
+    function handleCancelEditOption() {
+        handleAddOption();
         setEditOption(false);
         inputOptions.setInput("");
     }
@@ -77,7 +77,7 @@ export function useQuestionOption({ correct, optionsGroup }: Props) {
      * Manejador para controlar cuando se edite una opción seleccionada
      * @param option opción a editar
      */
-    function handlerEditOption(option: string) {
+    function handleEditOption(option: string) {
         inputOptions.setInput(option); // set value from option input
         setEditOption(!editOption);
         setOptions(quitOption(option));
@@ -88,7 +88,7 @@ export function useQuestionOption({ correct, optionsGroup }: Props) {
      * Manejador para eliminar una determinada opción de la lista de opciones
      * @param option opción a eliminar
      */
-    function handlerDeleteOption(option: string) {
+    function handleDeleteOption(option: string) {
         const updated = quitOption(option);
         console.log(updated);
         setOptions(updated);
@@ -103,9 +103,9 @@ export function useQuestionOption({ correct, optionsGroup }: Props) {
         correctOption,
         setCorrectOption,
         setOptions,
-        handlerAddOption,
-        handlerCancelEditOption,
-        handlerEditOption,
-        handlerDeleteOption,
+        handleAddOption,
+        handleCancelEditOption,
+        handleEditOption,
+        handleDeleteOption,
     };
 }
