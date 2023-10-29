@@ -12,15 +12,16 @@ import QuestionCollectionForm from "../Forms/QuestionCollectionForm/QuestionColl
 interface Props {
     question: ICollectionQuestionWithId;
     index: number;
-    questions: Array<ICollectionQuestionWithId>;
-    setQuestions: (questions: Array<ICollectionQuestionWithId>) => void;
+    handleUpdateQuestion: (
+        updatedQuestion: ICollectionQuestionWithId,
+        index: number
+    ) => void;
 }
 
 export default function ModalQuestionCollectionUpdate({
     question,
-    questions,
+    handleUpdateQuestion,
     index,
-    setQuestions,
 }: Props) {
     const { closeModal, openModal, showModal } = useModal();
 
@@ -64,9 +65,7 @@ export default function ModalQuestionCollectionUpdate({
                         duration: Number(inputDuration.inputProps.value),
                     };
 
-                    setQuestions(
-                        updateQuestionArray(questions, updatedQuestion)
-                    );
+                    handleUpdateQuestion(updatedQuestion, index);
 
                     closeModal();
                 } else {
@@ -78,19 +77,6 @@ export default function ModalQuestionCollectionUpdate({
         } else {
             toastError("Debe ingresar una pregunta");
         }
-    };
-
-    const updateQuestionArray = (
-        questions: ICollectionQuestionWithId[],
-        updatedQuestion: ICollectionQuestionWithId
-    ) => {
-        return questions.map((q, i) => {
-            if (i == index) {
-                return updatedQuestion;
-            }
-
-            return q;
-        });
     };
 
     return (
