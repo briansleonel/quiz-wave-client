@@ -1,20 +1,16 @@
 import { useParams } from "react-router-dom";
 import ContainerUtil from "../../../components/Layout/ContainerUtil";
 import ButtonPrimary from "../../../components/Button/ButtonPrimary";
-import { Fragment, useState } from "react";
-import {
-    Check,
-    ChevronRight,
-    CircleFill,
-    Trash3,
-    X,
-} from "react-bootstrap-icons";
+import { useState } from "react";
+import { Check, CircleFill, Trash3, X } from "react-bootstrap-icons";
 import { ICollectionWithUpdatedAt } from "../../../types/collection";
 import ModalCollectionName from "../../../components/Modals/ModalCollectionName";
 import { ICollectionQuestionWithId } from "../../../types/question";
 import ModalQuestionCollection from "../../../components/Modals/ModalQuestionCollection";
+import { useEffect } from "react";
 import CardContainer from "../../../components/Cards/CardContainer";
-import { Disclosure, Transition } from "@headlessui/react";
+import ModalQuestionCollectionUpdate from "../../../components/Modals/ModalQuestionCollectionUpdate";
+import QuestionCollectionCard from "../../../components/Cards/QuestionCollectionCard";
 
 export default function CollectionABMPage() {
     const params = useParams<{ id: string }>();
@@ -27,6 +23,21 @@ export default function CollectionABMPage() {
 
     const changeTitleAndDescription = (title: string, description: string) => {
         setCollection({ ...collection!, name: title, description });
+    };
+
+    const handleUpdateQuestion = (
+        updatedQuestion: ICollectionQuestionWithId,
+        index: number
+    ) => {
+        const updateQuestionArray = questions.map((q, i) => {
+            if (i == index) {
+                return updatedQuestion;
+            }
+
+            return q;
+        });
+
+        setQuestions(updateQuestionArray);
     };
 
     return (
@@ -86,32 +97,12 @@ export default function CollectionABMPage() {
 
                     <div className="flex flex-col gap-4">
                         {questions.map((question, index) => (
-                            <Disclosure as={Fragment} key={index}>
-                                {({ open }) => (
-                                    <article className="w-full flex flex-col justify-between gap-2 bg-white rounded border shadow shadow-neutral-200">
-                                        <Disclosure.Button className="flex p-4">
-                                            <h6 className="text-neutral-800 font-medium text-lg">
-                                                {index + 1} -{" "}
-                                                {question.question}
-                                            </h6>
-                                        </Disclosure.Button>
-                                        <Disclosure.Panel className="p-4 pt-0 flex flex-col gap-2">
-                                            {question.options.map((opt, i) => (
-                                                <div key={i} className="flex gap-4 items-center">
-                                                    {question.correct === i ? (
-                                                        <Check className="w-6 h-fit text-green-500" />
-                                                    ) : (
-                                                        <X className="w-6 h-fit text-red-500" />
-                                                    )}
-                                                    <span className="text-neutral-700">
-                                                        {opt}
-                                                    </span>
-                                                </div>
-                                            ))}
-                                        </Disclosure.Panel>
-                                    </article>
-                                )}
-                            </Disclosure>
+                            <QuestionCollectionCard
+                                key={index}
+                                handleUpdateQuestion={handleUpdateQuestion}
+                                question={question}
+                                index={index}
+                            />
                         ))}
                     </div>
                 </section>
