@@ -3,12 +3,19 @@ import { ICollectionWithUpdatedAt } from "../../types/collection";
 import ButtonPrimary from "../Button/ButtonPrimary";
 import CardContainer from "./CardContainer";
 import { getTimeAgo } from "../../libs/getTimeAgo";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     collection: ICollectionWithUpdatedAt;
 }
 
 export default function CollectionCard({ collection }: Props) {
+    const navigate = useNavigate();
+
+    const goToEdit = (id: string) => {
+        navigate("/dashboard/collection/" + id);
+    };
+
     return (
         <CardContainer>
             <div className="flex justify-between gap-4">
@@ -19,6 +26,7 @@ export default function CollectionCard({ collection }: Props) {
                     <ButtonPrimary
                         className="bg-transparent !text-neutral-600 text-lg hover:bg-transparent hover:!text-neutral-800 hover:shadow"
                         title="Editar"
+                        onClick={() => goToEdit(collection._id)}
                     >
                         <Pencil />
                     </ButtonPrimary>
@@ -47,3 +55,25 @@ export default function CollectionCard({ collection }: Props) {
         </CardContainer>
     );
 }
+
+/**
+ 
+interface Props2 {
+    to: string;
+    className?: string;
+    title?: string;
+    children: React.ReactNode;
+}
+
+function LinkButton({ title, to, className, children }: Props2) {
+    return (
+        <Link
+            to={to}
+            className={`uppercase font-light  p-2 rounded transition-all ease-in-out duration-500 text-white bg-blue-700 hover:bg-blue-600 drop-shadow ${className}`}
+            title={title ?? ""}
+        >
+            {children}
+        </Link>
+    );
+}
+*/
