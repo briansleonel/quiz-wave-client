@@ -30,4 +30,5 @@ export enum endpointsAPI {
     QUESTION = "question",
     CATEGORY = "category",
     GAME = "game",
+    COLLECTION = "collection",
 }
