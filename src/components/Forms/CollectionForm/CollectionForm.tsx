@@ -133,6 +133,10 @@ export default function CollectionForm({ edit, collection }: Props) {
         }
     };
 
+    const handleComeBack = () => {
+        navigate("/dashboard/collection");
+    };
+
     /**
      * Permite validar el formulario de colección, verificando que se ingresen los campos necesarios
      * @returns true si se valida el formulario, false en caso contrario
@@ -182,6 +186,14 @@ export default function CollectionForm({ edit, collection }: Props) {
                     </div>
                 </div>
 
+                {description && (
+                    <div className="mt-4">
+                        <p className="break-words font-normal text-sm text-neutral-600">
+                            {description}
+                        </p>
+                    </div>
+                )}
+
                 <div className="flex flex-col gap-2 mt-4">
                     {edit && (
                         <ButtonPrimary className="text-sm font-medium tracking-wider">
@@ -196,15 +208,13 @@ export default function CollectionForm({ edit, collection }: Props) {
                             Guardar {edit ? "cambios" : ""}
                         </ButtonPrimary>
                     )}
+                    <ButtonPrimary
+                        className="text-sm font-medium !text-neutral-800 tracking-wider bg-white hover:bg-neutral-50"
+                        onClick={handleComeBack}
+                    >
+                        {edit ? "Volver atrás" : "cancelar"}
+                    </ButtonPrimary>
                 </div>
-
-                {description && (
-                    <div className="mt-4">
-                        <p className="break-words font-normal text-sm text-neutral-600">
-                            {description}
-                        </p>
-                    </div>
-                )}
             </section>
             <section className="col-span-3 flex flex-col gap-4">
                 <div className="flex justify-between">
@@ -217,15 +227,16 @@ export default function CollectionForm({ edit, collection }: Props) {
                 </div>
 
                 <div className="flex flex-col gap-4">
-                    {questions.map((question, index) => (
-                        <QuestionCollectionCard
-                            key={index}
-                            handleUpdateQuestion={handleUpdateQuestion}
-                            handleDeleteQuestion={handleDeleteQuestion}
-                            question={question}
-                            index={index}
-                        />
-                    ))}
+                    {questions.length > 0 ?
+                        questions.map((question, index) => (
+                            <QuestionCollectionCard
+                                key={index}
+                                handleUpdateQuestion={handleUpdateQuestion}
+                                handleDeleteQuestion={handleDeleteQuestion}
+                                question={question}
+                                index={index}
+                            />
+                        )) : <div className="w-full bg-white text-neutral-600 border p-8 text-center rounded uppercase text-sm">No hay preguntas</div>}
                 </div>
             </section>
         </main>
