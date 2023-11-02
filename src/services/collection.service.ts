@@ -113,11 +113,35 @@ async function updateCollection(collection: ICollectionWithId) {
     }
 }
 
+async function deleteCollection(id: string) {
+    try {
+        const response = await __instanceAxios.delete(
+            `${endpointsAPI.COLLECTION}/${id}`
+        );
+        return response.data;
+    } catch (error) {
+        // Si el error es una instancia de AxiosError, puedes acceder a la propiedad response
+        if (isAxiosError(error)) {
+            //Si la respuesta tiene un código de estado, significa que la API respondió con un error HTTP
+            if (error.response) {
+                // Lanza una excepción con el mensaje de error recibido de la API
+                throw new Error(error.response.data.message);
+            } else {
+                throw new Error(error.message);
+            }
+        } else {
+            // Si no hay respuesta o no se pudo conectar con la API, lanza una excepción genérica
+            throw new Error("Error sin procesar");
+        }
+    }
+}
+
 const collectionService = {
     getCollectionsPagination,
     getCollection,
     addCollection,
     updateCollection,
+    deleteCollection,
 };
 
 export default collectionService;
