@@ -3,13 +3,13 @@ import useModal from "../../hooks/modal/useModal";
 import ButtonPrimary from "../Button/ButtonPrimary";
 import ModalDialog from "./ModalDialog";
 import { useQuestionOption } from "../../hooks/questions/useQuestionOptions";
-import { ICollectionQuestionWithId } from "../../types/question";
+import { ICollectionQuestion } from "../../types/question";
 import { toastError } from "../Sonner/sonner.toast";
 import { orderOptions } from "../../libs/questions.libs";
 import QuestionCollectionForm from "../Forms/QuestionCollectionForm/QuestionCollectionForm";
 
 interface Props {
-    hanldeAddQuestion: (question: ICollectionQuestionWithId) => void;
+    hanldeAddQuestion: (question: ICollectionQuestion) => void;
 }
 
 export default function ModalQuestionCollection({ hanldeAddQuestion }: Props) {
@@ -47,8 +47,7 @@ export default function ModalQuestionCollection({ hanldeAddQuestion }: Props) {
         if (inputQuestion.inputProps.value) {
             if (options.length >= 2) {
                 if (correctOption !== "") {
-                    const newQuestion: ICollectionQuestionWithId = {
-                        _id: "",
+                    const newQuestion: ICollectionQuestion = {
                         question: inputQuestion.inputProps.value,
                         description: inputDescription.inputProps.value,
                         options: orderOptions(options, correctOption),
@@ -56,7 +55,6 @@ export default function ModalQuestionCollection({ hanldeAddQuestion }: Props) {
                         duration: Number(inputDuration.inputProps.value),
                     };
 
-                    //setQuestions([...questions, newQuestion]);
                     hanldeAddQuestion(newQuestion);
 
                     cleanInputs();

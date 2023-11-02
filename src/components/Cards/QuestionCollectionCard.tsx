@@ -1,5 +1,5 @@
 import { Check, Trash3, X } from "react-bootstrap-icons";
-import { ICollectionQuestionWithId } from "../../types/question";
+import { ICollectionQuestion } from "../../types/question";
 import ModalQuestionCollectionUpdate from "../Modals/ModalQuestionCollectionUpdate";
 import CardContainer from "./CardContainer";
 import ButtonPrimary from "../Button/ButtonPrimary";
@@ -10,13 +10,13 @@ export default function QuestionCollectionCard({
     handleUpdateQuestion,
     handleDeleteQuestion,
 }: {
-    question: ICollectionQuestionWithId;
+    question: ICollectionQuestion;
     index: number;
     handleUpdateQuestion: (
-        updatedQuestion: ICollectionQuestionWithId,
+        updatedQuestion: ICollectionQuestion,
         index: number
     ) => void;
-    handleDeleteQuestion: (question: ICollectionQuestionWithId) => void;
+    handleDeleteQuestion: (question: ICollectionQuestion) => void;
 }) {
     return (
         <CardContainer className="!p-0">

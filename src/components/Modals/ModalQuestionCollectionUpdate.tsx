@@ -3,17 +3,17 @@ import useModal from "../../hooks/modal/useModal";
 import ButtonPrimary from "../Button/ButtonPrimary";
 import ModalDialog from "./ModalDialog";
 import { useQuestionOption } from "../../hooks/questions/useQuestionOptions";
-import { ICollectionQuestionWithId } from "../../types/question";
+import { ICollectionQuestion, ICollectionQuestionWithId } from "../../types/question";
 import { toastError } from "../Sonner/sonner.toast";
 import { orderOptions } from "../../libs/questions.libs";
 import { Pencil } from "react-bootstrap-icons";
 import QuestionCollectionForm from "../Forms/QuestionCollectionForm/QuestionCollectionForm";
 
 interface Props {
-    question: ICollectionQuestionWithId;
+    question: ICollectionQuestion;
     index: number;
     handleUpdateQuestion: (
-        updatedQuestion: ICollectionQuestionWithId,
+        updatedQuestion: ICollectionQuestion,
         index: number
     ) => void;
 }
