@@ -42,3 +42,25 @@ export function useUpdateCollection() {
 
     return { updateCollection };
 }
+
+export function useDeleteCollection() {
+    const queryClient = useQueryClient();
+    const { mutate: deleteCollection } = useMutation({
+        mutationFn: collectionService.deleteCollection,
+
+        onSuccess: (data) => {
+            toastSuccess(data.message as string);
+            // Actualizar los datos después de eliminar un usuario
+            queryClient.invalidateQueries({ queryKey: ["collections"] });
+        },
+        onError: (err) => {
+            if (err instanceof Error) {
+                toastError(err.message);
+            } else {
+                toastError(err as string);
+            }
+        },
+    });
+
+    return { deleteCollection };
+}
