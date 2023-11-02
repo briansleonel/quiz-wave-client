@@ -20,7 +20,10 @@ import {
     toastInformation,
     toastSuccess,
 } from "../../Sonner/sonner.toast";
-import { useCreateCollection } from "../../../hooks/collections/useCollectionMutation";
+import {
+    useCreateCollection,
+    useUpdateCollection,
+} from "../../../hooks/collections/useCollectionMutation";
 
 interface Props {
     collection?: ICollectionWithUpdatedAt;
@@ -31,6 +34,7 @@ export default function CollectionForm({ edit, collection }: Props) {
     const { user } = useAppSelector((state) => state.auth);
     const navigate = useNavigate();
     const { createCollection } = useCreateCollection();
+    const { updateCollection } = useUpdateCollection();
     // Estado para el nombre y descrripción de la coleccion
     const [name, setName] = useState<string>(collection ? collection.name : "");
     const [description, setDescription] = useState<string>(
@@ -118,11 +122,22 @@ export default function CollectionForm({ edit, collection }: Props) {
                 user: edit ? collection?.user : user._id,
             };
 
-            createCollection(newCollection, {
-                onSuccess: (data) => {
-                    navigate("/dashboard/collection");
-                },
-            });
+            if (edit && collection) {
+                updateCollection(
+                    { ...newCollection, _id: collection._id },
+                    {
+                        onSuccess: (data) => {
+                            navigate("/dashboard/collection");
+                        },
+                    }
+                );
+            } else {
+                createCollection(newCollection, {
+                    onSuccess: (data) => {
+                        navigate("/dashboard/collection");
+                    },
+                });
+            }
         }
     };
 
