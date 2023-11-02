@@ -1,9 +1,9 @@
-import { ICollectionQuestionWithId } from "./question";
+import { ICollectionQuestion } from "./question";
 
 export interface ICollection {
     name: string;
     description: string;
-    questions: Array<ICollectionQuestionWithId>;
+    questions: Array<ICollectionQuestion>;
     user?: string;
 }
 
