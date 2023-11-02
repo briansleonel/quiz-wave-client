@@ -4,8 +4,17 @@ import ButtonPrimary from "../../Button/ButtonPrimary";
 import ModalQuestionCollection from "../../Modals/ModalQuestionCollection";
 import QuestionCollectionCard from "../../Cards/QuestionCollectionCard";
 import { useState } from "react";
-import { ICollectionQuestionWithId } from "../../../types/question";
-import { ICollectionWithUpdatedAt } from "../../../types/collection";
+import {
+    ICollectionQuestion,
+    ICollectionQuestionWithId,
+} from "../../../types/question";
+import {
+    ICollection,
+    ICollectionWithUpdatedAt,
+} from "../../../types/collection";
+import { useAppSelector } from "../../../store/hooks.redux";
+import collectionService from "../../../services/collection.service";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     collection?: ICollectionWithUpdatedAt;
@@ -13,16 +22,20 @@ interface Props {
 }
 
 export default function CollectionForm({ edit, collection }: Props) {
+    const { user } = useAppSelector((state) => state.auth);
+    const navigate = useNavigate();
     // Estado para el nombre y descrripción de la coleccion
     const [name, setName] = useState<string>(collection ? collection.name : "");
     const [description, setDescription] = useState<string>(
         collection ? collection.description : ""
     );
 
+    const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
+
     // Preguntas correspondientes a la collection
-    const [questions, setQuestions] = useState<
-        Array<ICollectionQuestionWithId>
-    >(collection ? collection.questions : []);
+    const [questions, setQuestions] = useState<Array<ICollectionQuestion>>(
+        collection ? collection.questions : []
+    );
 
     /**
      * Permite cambiar el nombre y descripción de la colección actual
@@ -33,14 +46,16 @@ export default function CollectionForm({ edit, collection }: Props) {
     const changeTitleAndDescription = (title: string, description: string) => {
         setName(title);
         setDescription(description);
+        changesMade();
     };
 
     /**
      * Controlador de evento que permite agregar una nueva pregunta al listado de preguntas
      * @param question pregunta a agregar
      */
-    const hanldeAddQuestion = (question: ICollectionQuestionWithId) => {
+    const hanldeAddQuestion = (question: ICollectionQuestion) => {
         setQuestions([...questions, question]);
+        changesMade();
     };
 
     /**
@@ -49,7 +64,7 @@ export default function CollectionForm({ edit, collection }: Props) {
      * @param index indice de la pregunta que se va a actualizar
      */
     const handleUpdateQuestion = (
-        updatedQuestion: ICollectionQuestionWithId,
+        updatedQuestion: ICollectionQuestion,
         index: number
     ) => {
         const updateQuestionArray = questions.map((q, i) => {
@@ -61,16 +76,44 @@ export default function CollectionForm({ edit, collection }: Props) {
         });
 
         setQuestions(updateQuestionArray);
+        changesMade();
     };
 
     /**
      * Controlador de eventos que permite eliminar una determinada pregunta del listado de preguntas
      * @param question pregunta a eliminar
      */
-    const handleDeleteQuestion = (question: ICollectionQuestionWithId) => {
+    const handleDeleteQuestion = (question: ICollectionQuestion) => {
         const updateQuestionArray = questions.filter((q) => q !== question);
 
         setQuestions(updateQuestionArray);
+        changesMade();
+    };
+
+    /**
+     * Permite establecer que se han realizado cambios sobre una coleción recibida en los props
+     */
+    const changesMade = () => {
+        if (!unsavedChanges) {
+            setUnsavedChanges(true);
+        }
+    };
+
+    const handleSaveCollection = () => {
+        const newCollection: ICollection = {
+            name,
+            description,
+            questions,
+            user: edit ? collection?.user : user._id,
+        };
+
+        collectionService
+            .addCollection(newCollection)
+            .then((res) => {
+                console.log(res);
+                navigate("/dashboard/collection");
+            })
+            .catch((err) => console.log(err));
     };
 
     return (
@@ -104,9 +147,21 @@ export default function CollectionForm({ edit, collection }: Props) {
                     </div>
                 </div>
 
-                <ButtonPrimary className="text-sm font-medium tracking-wider mt-4">
-                    Empezar
-                </ButtonPrimary>
+                <div className="flex flex-col gap-2 mt-4">
+                    {edit && (
+                        <ButtonPrimary className="text-sm font-medium tracking-wider">
+                            Empezar
+                        </ButtonPrimary>
+                    )}
+                    {(unsavedChanges || !edit) && (
+                        <ButtonPrimary
+                            className="text-sm font-medium tracking-wider bg-green-600 hover:bg-green-600/80"
+                            onClick={handleSaveCollection}
+                        >
+                            Guardar {edit ? "cambios" : ""}
+                        </ButtonPrimary>
+                    )}
+                </div>
 
                 {description && (
                     <div className="mt-4">
