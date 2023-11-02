@@ -15,6 +15,12 @@ import {
 import { useAppSelector } from "../../../store/hooks.redux";
 import collectionService from "../../../services/collection.service";
 import { useNavigate } from "react-router-dom";
+import {
+    toastError,
+    toastInformation,
+    toastSuccess,
+} from "../../Sonner/sonner.toast";
+import { useCreateCollection } from "../../../hooks/collections/useCollectionMutation";
 
 interface Props {
     collection?: ICollectionWithUpdatedAt;
@@ -24,6 +30,7 @@ interface Props {
 export default function CollectionForm({ edit, collection }: Props) {
     const { user } = useAppSelector((state) => state.auth);
     const navigate = useNavigate();
+    const { createCollection } = useCreateCollection();
     // Estado para el nombre y descrripción de la coleccion
     const [name, setName] = useState<string>(collection ? collection.name : "");
     const [description, setDescription] = useState<string>(
@@ -99,21 +106,42 @@ export default function CollectionForm({ edit, collection }: Props) {
         }
     };
 
+    /**
+     * Permite crear una nueva colección, o guardaar los cambios realizados a una colección existente
+     */
     const handleSaveCollection = () => {
-        const newCollection: ICollection = {
-            name,
-            description,
-            questions,
-            user: edit ? collection?.user : user._id,
-        };
+        if (validateCollectionForm()) {
+            const newCollection: ICollection = {
+                name,
+                description,
+                questions,
+                user: edit ? collection?.user : user._id,
+            };
 
-        collectionService
-            .addCollection(newCollection)
-            .then((res) => {
-                console.log(res);
-                navigate("/dashboard/collection");
-            })
-            .catch((err) => console.log(err));
+            createCollection(newCollection, {
+                onSuccess: (data) => {
+                    navigate("/dashboard/collection");
+                },
+            });
+        }
+    };
+
+    /**
+     * Permite validar el formulario de colección, verificando que se ingresen los campos necesarios
+     * @returns true si se valida el formulario, false en caso contrario
+     */
+    const validateCollectionForm = () => {
+        if (name) {
+            if (questions.length > 0) {
+                return true;
+            } else {
+                toastInformation("Debe ingresar al menos una pregunta");
+            }
+        } else {
+            toastInformation("Debe ingresar un título a la colección");
+        }
+
+        return false;
     };
 
     return (
