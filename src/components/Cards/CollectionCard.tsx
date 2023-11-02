@@ -4,6 +4,8 @@ import ButtonPrimary from "../Button/ButtonPrimary";
 import CardContainer from "./CardContainer";
 import { getTimeAgo } from "../../libs/getTimeAgo";
 import { useNavigate } from "react-router-dom";
+import { useDeleteCollection } from "../../hooks/collections/useCollectionMutation";
+import { toastSuccess } from "../Sonner/sonner.toast";
 
 interface Props {
     collection: ICollectionWithUpdatedAt;
@@ -11,9 +13,14 @@ interface Props {
 
 export default function CollectionCard({ collection }: Props) {
     const navigate = useNavigate();
+    const { deleteCollection } = useDeleteCollection();
 
     const goToEdit = (id: string) => {
         navigate("/dashboard/collection/" + id);
+    };
+
+    const handleDeleteCollection = (id: string) => {
+        deleteCollection(id);
     };
 
     return (
@@ -33,6 +40,7 @@ export default function CollectionCard({ collection }: Props) {
                     <ButtonPrimary
                         className="bg-transparent !text-neutral-600 text-lg hover:bg-transparent hover:!text-neutral-800 hover:shadow"
                         title="Eliminar"
+                        onClick={() => handleDeleteCollection(collection._id)}
                     >
                         <Trash3 />
                     </ButtonPrimary>
