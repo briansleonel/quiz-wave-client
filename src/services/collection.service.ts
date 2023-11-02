@@ -6,20 +6,37 @@ import {
     ICollectionWithId,
     ICollectionWithUpdatedAt,
 } from "../types/collection";
+import { getQueryCollection } from "../libs/query.collection";
 
-export interface QueryFetchCollection extends PaginationFetch {}
+export interface QueryFetchCollection extends PaginationFetch {
+    searchText: string;
+    user: string;
+    recents: boolean;
+}
 
 /**
  * Permite envíar una petición GET a "/api/collection/" para devolver todas las collections almacenadas en la API, con paginación de datos
  *
  * @returns todas las categorias
  */
-async function getCollectionsPagination({ limit, page }: QueryFetchCollection) {
+async function getCollectionsPagination({
+    limit,
+    page,
+    recents,
+    searchText,
+    user,
+}: QueryFetchCollection) {
     const paginationData = `?page=${page}&limit=${limit}`;
+
+    const queryData = getQueryCollection({
+        searchText,
+        recents,
+        user,
+    });
 
     try {
         const response = await __instanceAxios.get(
-            endpointsAPI.COLLECTION + paginationData
+            endpointsAPI.COLLECTION + paginationData + queryData
         );
 
         return response.data as APIResponse<Array<ICollectionWithUpdatedAt>>;
