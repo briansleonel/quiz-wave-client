@@ -19,6 +19,7 @@ export default function CollectionABMPage() {
         queryKey: ["collection"],
         queryFn: () => collectionService.getCollection(params.id!),
         enabled: edit,
+        cacheTime: 0,
     });
 
     return (
