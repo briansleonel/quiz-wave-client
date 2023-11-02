@@ -4,22 +4,14 @@ import ButtonPrimary from "../../Button/ButtonPrimary";
 import ModalQuestionCollection from "../../Modals/ModalQuestionCollection";
 import QuestionCollectionCard from "../../Cards/QuestionCollectionCard";
 import { useState } from "react";
-import {
-    ICollectionQuestion,
-    ICollectionQuestionWithId,
-} from "../../../types/question";
+import { ICollectionQuestion } from "../../../types/question";
 import {
     ICollection,
     ICollectionWithUpdatedAt,
 } from "../../../types/collection";
 import { useAppSelector } from "../../../store/hooks.redux";
-import collectionService from "../../../services/collection.service";
 import { useNavigate } from "react-router-dom";
-import {
-    toastError,
-    toastInformation,
-    toastSuccess,
-} from "../../Sonner/sonner.toast";
+import { toastInformation } from "../../Sonner/sonner.toast";
 import {
     useCreateCollection,
     useUpdateCollection,
