@@ -1,18 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import collectionService from "../../services/collection.service";
 import { toastError, toastSuccess } from "../../components/Sonner/sonner.toast";
 
-const PATH_NAVIGATION = "/dashboard/collection/";
-
-export function useAddCollectionMutation() {
-    const navigate = useNavigate();
-
-    const addCollectionMutation = useMutation({
+export function useCreateCollection() {
+    const { mutate: createCollection } = useMutation({
         mutationFn: collectionService.addCollection,
 
         onSuccess: (data) => {
-            navigate(PATH_NAVIGATION);
             toastSuccess(data.message as string);
             //queryClient.invalidateQueries({ queryKey: ["collection"] });
         },
@@ -25,5 +19,5 @@ export function useAddCollectionMutation() {
         },
     });
 
-    return addCollectionMutation;
+    return { createCollection };
 }
