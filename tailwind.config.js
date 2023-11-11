@@ -5,6 +5,7 @@ export default {
         extend: {
             backgroundImage: {
                 backgroundTrivia: "url('/background.svg')",
+                backgroundQuiz: "url('/background-quiz.jpg')",
             },
         },
     },
