@@ -18,12 +18,15 @@ import CollectionPage from "../../app/dashboard/collection/CollectionPage";
 import CollectionABMPage from "../../app/dashboard/collection/CollectionABMPage";
 import TriviaPage from "../../app/trivia/TriviaPage";
 import StartTriviaPage from "../../app/trivia/start/StartTriviaPage";
+import JoinPage from "../../app/join/JoinPage";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
         <>
             <Route element={<LayoutMain />}>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/join" element={<JoinPage />} />
+
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/trivia" element={<TriviaPage />} />
