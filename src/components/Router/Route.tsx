@@ -20,6 +20,7 @@ import TriviaPage from "../../app/trivia/TriviaPage";
 import StartTriviaPage from "../../app/trivia/start/StartTriviaPage";
 import JoinPage from "../../app/join/JoinPage";
 import InstructionsPage from "../../app/instructions/InstructionsPage";
+import LobbyPage from "../../app/lobby/LobbyPage";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
@@ -28,6 +29,7 @@ export const router = createBrowserRouter(
                 <Route path="/" element={<HomePage />} />
                 <Route path="/join" element={<JoinPage />} />
                 <Route path="/instructions" element={<InstructionsPage />} />
+                <Route path="/lobby" element={<LobbyPage />} />
 
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
