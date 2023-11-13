@@ -2,6 +2,8 @@ import { useLocation } from "react-router-dom";
 import BackgroundQuiz from "../../components/Trivia/BackgroundQuiz";
 import { useEffect, useState } from "react";
 import { Player } from "../../types/quiz/player";
+import RoomCode from "../../components/Lobby/RoomCode";
+import LoaderRoom from "../../components/Lobby/LoaderRoom";
 
 const playersMock: Array<Player> = [
     {
@@ -31,22 +33,7 @@ export default function LobbyPage() {
         <BackgroundQuiz>
             <main className="w-full h-screen flex flex-col items-center justify-start gap-36 p-20 md:px-44">
                 {/** Mostrar el código de juego */}
-                <section className="flex w-fit rounded transform -skew-x-12 bg-indigo-600 shadow-md shadow-neutral-900 text-5xl">
-                    <div className="rounded py-4 px-8  bg-indigo-800">
-                        <div className="transform skew-x-12">
-                            <h3 className="text-center text-white font-medium">
-                                PIN
-                            </h3>
-                        </div>
-                    </div>
-                    <div className="w-full rounded py-4 px-16 bg-indigo-600 ">
-                        <div className="transform skew-x-12 ">
-                            <h3 className="transform text-center text-neutral-200 font-semibold tracking-wide">
-                                123456
-                            </h3>
-                        </div>
-                    </div>
-                </section>
+                <RoomCode code={123456} />
 
                 {/** Mostrar los jugadores que van ingresando a la sala */}
                 <section className="w-full grid grid-cols-5 gap-12">
@@ -60,9 +47,10 @@ export default function LobbyPage() {
                     ))}
                 </section>
 
-                <span className="font-medium text-neutral-200 text-4xl transform -skew-x-12">
-                    Esperando jugadores...
-                </span>
+                {/** Mostrar dialogo de espera de jugadores en la sala */}
+                {players.length > 0 && !loading && (
+                    <LoaderRoom text="Esperando jugadores" />
+                )}
             </main>
         </BackgroundQuiz>
     );

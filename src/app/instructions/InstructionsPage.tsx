@@ -1,3 +1,4 @@
+import LoaderRoom from "../../components/Lobby/LoaderRoom";
 import BackgroundQuiz from "../../components/Trivia/BackgroundQuiz";
 
 export default function InstructionsPage() {
@@ -13,9 +14,7 @@ export default function InstructionsPage() {
                         </div>
                     </div>
 
-                    <span className="font-bold text-neutral-200 text-3xl transform -skew-x-12">
-                        Esperando...
-                    </span>
+                    <LoaderRoom text="Esperando" />
                 </section>
             </main>
         </BackgroundQuiz>
