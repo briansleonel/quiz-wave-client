@@ -5,7 +5,7 @@ import CardContainer from "./CardContainer";
 import { getTimeAgo } from "../../libs/getTimeAgo";
 import { useNavigate } from "react-router-dom";
 import { useDeleteCollection } from "../../hooks/collections/useCollectionMutation";
-import { toastSuccess } from "../Sonner/sonner.toast";
+import { socket } from "../../socket";
 
 interface Props {
     collection: ICollectionWithUpdatedAt;
@@ -21,6 +21,13 @@ export default function CollectionCard({ collection }: Props) {
 
     const handleDeleteCollection = (id: string) => {
         deleteCollection(id);
+    };
+
+    const handleStart = (id: string) => {
+        // redirecciono a la página del lobby
+        navigate({ pathname: "/lobby", search: `?collection=${id}` });
+        // realizo la conexión al socket
+        socket.connect().emit("room:create");
     };
 
     return (
@@ -55,7 +62,10 @@ export default function CollectionCard({ collection }: Props) {
                     <span className="text-sm text-neutral-500 italic">
                         Actualizado {getTimeAgo(new Date(collection.updatedAt))}
                     </span>
-                    <ButtonPrimary className="text-sm font-medium tracking-wider">
+                    <ButtonPrimary
+                        className="text-sm font-medium tracking-wider"
+                        onClick={() => handleStart(collection._id)}
+                    >
                         Empezar
                     </ButtonPrimary>
                 </div>
