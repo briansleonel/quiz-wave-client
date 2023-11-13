@@ -6,6 +6,7 @@ import { loadStateTokenLocalStorage } from "../libs/token.localstorage";
  */
 export const config = {
     URL_API: import.meta.env.URL_API || "http://localhost:3001/api/",
+    URL_SOCKET: import.meta.env.URL_SOCKET || "http://localhost:3002",
 };
 
 /**
