@@ -2,9 +2,44 @@ import ButtonTrivia from "../components/Button/ButtonTrivia";
 import { Input } from "../components/Forms/Input/Input";
 import { useFormInput } from "../hooks/inputs/useFormInput";
 import BackgroundQuiz from "../components/Trivia/BackgroundQuiz";
+import { socket } from "../socket";
+import { useEffect } from "react";
+import { toastInformation } from "../components/Sonner/sonner.toast";
+import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
+    const navigate = useNavigate();
+
     const inputCodeRoom = useFormInput("");
+
+    const handleJoinRoom = () => {
+        if (inputCodeRoom.inputProps.value != "") {
+            socket.connect();
+            socket.emit(
+                "room:check-exists",
+                Number(inputCodeRoom.inputProps.value)
+            );
+        }
+    };
+
+    useEffect(() => {
+        function roomExists(exists: boolean) {
+            if (exists) navigate("/join");
+        }
+
+        function roomError(message: string) {
+            toastInformation(message);
+        }
+
+        socket.on("room:room-exists", roomExists);
+
+        socket.on("room:error", roomError);
+
+        return () => {
+            socket.off("room:room-exists", roomExists);
+            socket.off("room:error", roomError);
+        };
+    });
 
     return (
         <>
@@ -20,7 +55,7 @@ export default function HomePage() {
                         />
 
                         <ButtonTrivia
-                            onClickFn={() => {}}
+                            onClickFn={() => handleJoinRoom()}
                             className="w-full !bg-neutral-800 text-neutral-100 hover:!bg-neutral-900"
                         >
                             Ingresar
