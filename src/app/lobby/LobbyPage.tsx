@@ -4,19 +4,8 @@ import { useEffect, useState } from "react";
 import { Player } from "../../types/quiz/player";
 import RoomCode from "../../components/Lobby/RoomCode";
 import LoaderRoom from "../../components/Lobby/LoaderRoom";
-
-const playersMock: Array<Player> = [
-    {
-        socketId: "akjsdjkajks",
-        name: "name1 largooooo asdasd",
-        score: 0,
-        answers: [],
-    },
-    { socketId: "asdasdasdas", name: "name2", score: 0, answers: [] },
-    { socketId: "assxcsdfass", name: "name3", score: 0, answers: [] },
-    { socketId: "asdqweasdaa", name: "name4", score: 0, answers: [] },
-    { socketId: "fghftheffgdf", name: "name5", score: 0, answers: [] },
-];
+import { socket } from "../../socket";
+import PlayerName from "../../components/Lobby/PlayerName";
 
 export default function LobbyPage() {
     const location = useLocation();
@@ -25,33 +14,46 @@ export default function LobbyPage() {
     // Estado para verificar cuando esté cargando los necesario para el juego
     const [loading, setLoading] = useState<boolean>(true);
 
-    const [players, setPlayers] = useState<Array<Player>>(playersMock);
+    const [roomCode, setRoomCode] = useState<number>();
 
-    useEffect(() => {});
+    const [players, setPlayers] = useState<Array<Player>>([]);
+
+    useEffect(() => {
+        socket.on("room:created", (code) => {
+            setTimeout(() => {
+                setRoomCode(code); // guardo el codigo de la sala
+                setLoading(false); // indico que ya no se está cargando
+            }, 3000);
+        });
+    });
 
     return (
         <BackgroundQuiz>
-            <main className="w-full h-screen flex flex-col items-center justify-start gap-36 p-20 md:px-44">
-                {/** Mostrar el código de juego */}
-                <RoomCode code={123456} />
+            {!loading && (
+                <main className="w-full h-screen flex flex-col items-center justify-start gap-36 p-20 md:px-44">
+                    {/** Mostrar el código de juego */}
+                    {roomCode && <RoomCode code={roomCode} />}
 
-                {/** Mostrar los jugadores que van ingresando a la sala */}
-                <section className="w-full grid grid-cols-5 gap-12">
-                    {players.map((p) => (
-                        <span
-                            key={p.socketId}
-                            className="w-full flex items-center justify-center rounded-sm bg-white p-3 text-center text-2xl font-semibold"
-                        >
-                            {p.name}
-                        </span>
-                    ))}
-                </section>
+                    {/** Mostrar los jugadores que van ingresando a la sala */}
+                    {players.length > 0 && !loading && (
+                        <section className="w-full grid grid-cols-5 gap-12">
+                            {players.map((p) => (
+                                <PlayerName player={p} />
+                            ))}
+                        </section>
+                    )}
 
-                {/** Mostrar dialogo de espera de jugadores en la sala */}
-                {players.length > 0 && !loading && (
-                    <LoaderRoom text="Esperando jugadores" />
-                )}
-            </main>
+                    {/** Mostrar dialogo de espera de jugadores en la sala */}
+                    {players.length == 0 && !loading && (
+                        <LoaderRoom text="Esperando jugadores" />
+                    )}
+                </main>
+            )}
+            {loading && (
+                <main className="w-full h-screen flex justify-center items-center">
+                    <LoaderRoom text="Cargando" />
+                </main>
+            )}
         </BackgroundQuiz>
     );
 }
