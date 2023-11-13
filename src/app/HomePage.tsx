@@ -3,23 +3,34 @@ import { Input } from "../components/Forms/Input/Input";
 import { useFormInput } from "../hooks/inputs/useFormInput";
 import BackgroundQuiz from "../components/Trivia/BackgroundQuiz";
 import { socket } from "../socket";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toastInformation } from "../components/Sonner/sonner.toast";
 import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
     const navigate = useNavigate();
 
+    // estado para el input de codigo de sala
     const inputCodeRoom = useFormInput("");
 
+    // estado para indicar cuando se está verificando la existencia de la sala
+    const [loading, setLoading] = useState(false);
+
     const handleJoinRoom = () => {
-        if (inputCodeRoom.inputProps.value != "") {
-            socket.connect();
-            socket.emit(
-                "room:check-exists",
-                Number(inputCodeRoom.inputProps.value)
-            );
-        }
+        if (!loading)
+            if (inputCodeRoom.inputProps.value != "") {
+                setLoading(true); // indico que se está cargando
+                socket.connect(); // conecto el cliente al servidor
+                setTimeout(() => {
+                    // emito el evento desde el cliente para verificar si existe una sala
+                    socket.emit(
+                        "room:check-exists",
+                        Number(inputCodeRoom.inputProps.value)
+                    );
+                }, 3000);
+            } else {
+                toastInformation("Ingrese un PIN de juego.");
+            }
     };
 
     useEffect(() => {
@@ -28,6 +39,7 @@ export default function HomePage() {
         }
 
         function roomError(message: string) {
+            setLoading(false);
             toastInformation(message);
         }
 
@@ -56,9 +68,9 @@ export default function HomePage() {
 
                         <ButtonTrivia
                             onClickFn={() => handleJoinRoom()}
-                            className="w-full !bg-neutral-800 text-neutral-100 hover:!bg-neutral-900"
+                            className={`w-full text-neutral-100 ${!loading ? "!bg-neutral-800  hover:!bg-neutral-900" : "!bg-gray-800"}`}
                         >
-                            Ingresar
+                            {loading ? "Cargando..." : "Ingresar"}
                         </ButtonTrivia>
                     </section>
                 </main>
