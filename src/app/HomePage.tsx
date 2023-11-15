@@ -6,9 +6,12 @@ import { socket } from "../socket";
 import { useEffect, useState } from "react";
 import { toastInformation } from "../components/Sonner/sonner.toast";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../store/hooks.redux";
+import { playerSetCode } from "../store/features/player.slice";
 
 export default function HomePage() {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     // estado para el input de codigo de sala
     const inputCodeRoom = useFormInput("");
@@ -35,7 +38,10 @@ export default function HomePage() {
 
     useEffect(() => {
         function roomExists(exists: boolean) {
-            if (exists) navigate("/join");
+            if (exists) {
+                dispatch(playerSetCode(Number(inputCodeRoom.inputProps.value)));
+                navigate("/join");
+            }
         }
 
         function roomError(message: string) {
@@ -68,7 +74,11 @@ export default function HomePage() {
 
                         <ButtonTrivia
                             onClickFn={() => handleJoinRoom()}
-                            className={`w-full text-neutral-100 ${!loading ? "!bg-neutral-800  hover:!bg-neutral-900" : "!bg-gray-800"}`}
+                            className={`w-full text-neutral-100 ${
+                                !loading
+                                    ? "!bg-neutral-800  hover:!bg-neutral-900"
+                                    : "!bg-gray-800"
+                            }`}
                         >
                             {loading ? "Cargando..." : "Ingresar"}
                         </ButtonTrivia>
