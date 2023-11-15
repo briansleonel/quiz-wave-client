@@ -6,6 +6,7 @@ import RoomCode from "../../components/Lobby/RoomCode";
 import LoaderRoom from "../../components/Lobby/LoaderRoom";
 import { socket } from "../../socket";
 import PlayerName from "../../components/Lobby/PlayerName";
+import { toastInformation } from "../../components/Sonner/sonner.toast";
 
 export default function LobbyPage() {
     const location = useLocation();
@@ -19,12 +20,25 @@ export default function LobbyPage() {
     const [players, setPlayers] = useState<Array<Player>>([]);
 
     useEffect(() => {
-        socket.on("room:created", (code) => {
+        function roomCreated(code: number) {
             setTimeout(() => {
                 setRoomCode(code); // guardo el codigo de la sala
                 setLoading(false); // indico que ya no se está cargando
             }, 3000);
-        });
+        }
+
+        function joinPlayer(player: Player) {
+            setPlayers([...players, player]);
+            toastInformation("Se ha unido " + player.name);
+        }
+
+        socket.on("room:created", roomCreated);
+        socket.on("room:join-player", joinPlayer);
+
+        return () => {
+            socket.off("room:created", roomCreated);
+            socket.off("room:join-player", joinPlayer);
+        };
     });
 
     return (
