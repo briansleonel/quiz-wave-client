@@ -2,12 +2,17 @@ import BackgroundQuiz from "../../components/Trivia/BackgroundQuiz";
 import ButtonTrivia from "../../components/Button/ButtonTrivia";
 import { Input } from "../../components/Forms/Input/Input";
 import { useFormInput } from "../../hooks/inputs/useFormInput";
-import { useAppSelector } from "../../store/hooks.redux";
+import { useAppDispatch, useAppSelector } from "../../store/hooks.redux";
 import { useEffect, useState } from "react";
 import { socket } from "../../socket";
 import { toastInformation } from "../../components/Sonner/sonner.toast";
+import { playerSetName } from "../../store/features/player.slice";
+import { Player } from "../../types/quiz/player";
+import { useNavigate } from "react-router-dom";
 
 export default function JoinPage() {
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const { code } = useAppSelector((state) => state.player);
 
     const inputPlayerName = useFormInput("");
@@ -28,6 +33,21 @@ export default function JoinPage() {
         }
     };
 
+    useEffect(() => {
+        function playerJoinedRoom(player: Player) {
+            if (player.socketId) {
+                dispatch(playerSetName(player.name));
+                navigate("/instructions");
+            }
+        }
+
+        socket.on("player:joined-room", playerJoinedRoom);
+
+        return () => {
+            socket.off("player:joined-room", playerJoinedRoom);
+        };
+    });
+
     return (
         <>
             <BackgroundQuiz>
@@ -45,7 +65,7 @@ export default function JoinPage() {
                             onClickFn={handleAddName}
                             className="w-full !bg-neutral-800 text-neutral-100 hover:!bg-neutral-900 normal-case"
                         >
-                            {loading ? "Cargando..." : "¡Listo, vamos!"}
+                            {loading ? "Ingresando..." : "¡Listo, vamos!"}
                         </ButtonTrivia>
                     </section>
                 </main>
