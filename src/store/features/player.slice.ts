@@ -19,11 +19,8 @@ const playerSlice = createSlice({
         playerSetCode: function (state, action: PayloadAction<number>) {
             state.code = action.payload;
         },
-        playerSetName: function (
-            state,
-            action: PayloadAction<{ name: string }>
-        ) {
-            state.name = action.payload.name;
+        playerSetName: function (state, action: PayloadAction<string>) {
+            state.name = action.payload;
         },
     },
 });
