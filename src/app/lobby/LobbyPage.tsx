@@ -7,9 +7,12 @@ import LoaderRoom from "../../components/Lobby/LoaderRoom";
 import { socket } from "../../socket";
 import PlayerName from "../../components/Lobby/PlayerName";
 import { toastInformation } from "../../components/Sonner/sonner.toast";
+import { quizSetInitial } from "../../store/features/quiz.slice";
+import { useAppDispatch } from "../../store/hooks.redux";
 
 export default function LobbyPage() {
     const location = useLocation();
+    const dispatch = useAppDispatch();
     const collectionId = new URLSearchParams(location.search).get("collection");
 
     // Estado para verificar cuando esté cargando los necesario para el juego
@@ -20,8 +23,9 @@ export default function LobbyPage() {
     const [players, setPlayers] = useState<Array<Player>>([]);
 
     useEffect(() => {
-        function roomCreated(code: number) {
+        function roomCreated(code: number, socketId: string) {
             setTimeout(() => {
+                dispatch(quizSetInitial({ code, socketId })); // guardo el codigo y el oscket id en el estado de la aplicacion
                 setRoomCode(code); // guardo el codigo de la sala
                 setLoading(false); // indico que ya no se está cargando
             }, 3000);
