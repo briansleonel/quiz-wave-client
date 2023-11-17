@@ -33,7 +33,12 @@ const quizWaveSlice = createSlice({
             state.socketId = action.payload.socketId;
             state.status = "waiting";
         },
-        quizSetQuestions: function (state, action) {},
+        quizSetQuestions: function (
+            state,
+            action: PayloadAction<Array<ICollectionQuestion>>
+        ) {
+            state.questions = action.payload;
+        },
         quizAddPlayer: function (state, action) {},
         quizDeletePlayer: function (state, action) {},
     },
