@@ -27,7 +27,7 @@ export default function CollectionCard({ collection }: Props) {
         // redirecciono a la página del lobby
         navigate({ pathname: "/lobby", search: `?collection=${id}` });
         // realizo la conexión al socket
-        socket.connect().emit("room:create");
+        socket.connect().emit("room:create", collection.questions);
     };
 
     return (
