@@ -5,6 +5,7 @@ import questionFilterSlice from "./features/filters.question.slice";
 import gameSlice from "./features/gameSlice";
 import collectionFilterSlice from "./features/filters.collection.slice";
 import playerSlice from "./features/player.slice";
+import quizSlice from "./features/quiz.slice";
 
 export const store = configureStore({
     reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
         game: gameSlice,
         collectionFilters: collectionFilterSlice,
         player: playerSlice,
+        quiz: quizSlice,
     },
 });
 
