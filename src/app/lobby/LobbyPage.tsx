@@ -32,12 +32,24 @@ export default function LobbyPage() {
             toastInformation("Se ha unido " + player.name);
         }
 
+        function playerDisconnected(player: Player) {
+            const playersUpdated = players.filter(
+                (p) => p.socketId !== player.socketId
+            );
+
+            setPlayers(playersUpdated);
+
+            toastInformation(`Se ha desconectado un jugador`);
+        }
+
         socket.on("room:created", roomCreated);
         socket.on("room:join-player", joinPlayer);
+        socket.on("room:player-disconnected", playerDisconnected);
 
         return () => {
             socket.off("room:created", roomCreated);
             socket.off("room:join-player", joinPlayer);
+            socket.off("room:player-disconnected", playerDisconnected);
         };
     });
 
