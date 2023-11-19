@@ -8,6 +8,7 @@ import { socket } from "../../socket";
 import PlayerName from "../../components/Lobby/PlayerName";
 import { toastInformation } from "../../components/Sonner/sonner.toast";
 import {
+    quizDeletePlayer,
     quizJoinPlayer,
     quizSetInitial,
 } from "../../store/features/quiz.slice";
@@ -47,6 +48,7 @@ export default function LobbyPage() {
             );
 
             setPlayers(playersUpdated);
+            dispatch(quizDeletePlayer(player.socketId));
 
             toastInformation(`Se ha desconectado un jugador`);
         }
