@@ -42,7 +42,13 @@ const quizWaveSlice = createSlice({
         quizJoinPlayer: function (state, action: PayloadAction<Player>) {
             state.players.push(action.payload);
         },
-        quizDeletePlayer: function (state, action) {},
+        quizDeletePlayer: function (state, action: PayloadAction<string>) {
+            const updatedPlayers = state.players.filter(
+                (p) => p.socketId !== action.payload
+            );
+
+            state.players = updatedPlayers;
+        },
     },
 });
 
