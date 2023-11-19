@@ -19,7 +19,8 @@ export default function JoinPage() {
 
     const [loading, setLoading] = useState(false);
 
-    const handleAddName = () => {
+    const handleAddName = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         if (!loading) {
             const playername = inputPlayerName.inputProps.value;
             if (playername !== "" && code) {
@@ -52,7 +53,10 @@ export default function JoinPage() {
         <>
             <BackgroundQuiz>
                 <main className="w-full h-screen flex items-center justify-center">
-                    <section className="grid grid-cols-1 gap-4 w-72 p-4 bg-white rounded-sm">
+                    <form
+                        className="grid grid-cols-1 gap-4 w-72 p-4 bg-white rounded-sm"
+                        onSubmit={handleAddName}
+                    >
                         <Input
                             type="text"
                             name="limit"
@@ -61,13 +65,10 @@ export default function JoinPage() {
                             placeholder="Ingresar nombre"
                         />
 
-                        <ButtonTrivia
-                            onClickFn={handleAddName}
-                            className="w-full !bg-neutral-800 text-neutral-100 hover:!bg-neutral-900 normal-case"
-                        >
+                        <ButtonTrivia className="w-full !bg-neutral-800 text-neutral-100 hover:!bg-neutral-900 normal-case">
                             {loading ? "Ingresando..." : "¡Listo, vamos!"}
                         </ButtonTrivia>
-                    </section>
+                    </form>
                 </main>
             </BackgroundQuiz>
         </>
