@@ -19,12 +19,16 @@ const playerSlice = createSlice({
         playerSetCode: function (state, action: PayloadAction<number>) {
             state.code = action.payload;
         },
-        playerSetName: function (state, action: PayloadAction<string>) {
-            state.name = action.payload;
+        playerSetNameAndSocketId: function (
+            state,
+            action: PayloadAction<{ name: string; socketId: string }>
+        ) {
+            state.name = action.payload.name;
+            state.socketId = action.payload.socketId;
         },
     },
 });
 
-export const { playerSetCode, playerSetName } = playerSlice.actions;
+export const { playerSetCode, playerSetNameAndSocketId } = playerSlice.actions;
 
 export default playerSlice.reducer;
