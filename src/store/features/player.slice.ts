@@ -1,8 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Player } from "../../types/quiz/player";
+import { ICollectionQuestion } from "../../types/question";
 
 interface State extends Player {
     code?: number;
+    currentQuestion?: ICollectionQuestion;
+    hasNext: boolean;
 }
 
 const initialState: State = {
@@ -10,6 +13,7 @@ const initialState: State = {
     name: "",
     answers: [],
     score: 0,
+    hasNext: false,
 };
 
 const playerSlice = createSlice({
@@ -25,6 +29,16 @@ const playerSlice = createSlice({
         ) {
             state.name = action.payload.name;
             state.socketId = action.payload.socketId;
+        },
+        playerSetCurrentQuestion: function (
+            state,
+            action: PayloadAction<{
+                question: ICollectionQuestion;
+                hasNext: boolean;
+            }>
+        ) {
+            state.currentQuestion = action.payload.question;
+            state.hasNext = action.payload.hasNext;
         },
     },
 });
