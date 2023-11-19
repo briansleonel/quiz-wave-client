@@ -7,4 +7,5 @@ export interface Room {
     players: Array<Player>;
     status: StatusRoom;
     currentQuestion: number;
+    hasNext: false;
 }
