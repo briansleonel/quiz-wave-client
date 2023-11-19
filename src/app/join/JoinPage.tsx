@@ -9,6 +9,7 @@ import { toastInformation } from "../../components/Sonner/sonner.toast";
 import { playerSetName } from "../../store/features/player.slice";
 import { Player } from "../../types/quiz/player";
 import { useNavigate } from "react-router-dom";
+import LoaderCircle from "../../components/Loader/LoaderCircle";
 
 export default function JoinPage() {
     const navigate = useNavigate();
@@ -65,8 +66,14 @@ export default function JoinPage() {
                             placeholder="Ingresar nombre"
                         />
 
-                        <ButtonTrivia className="w-full !bg-neutral-800 text-neutral-100 hover:!bg-neutral-900 normal-case">
-                            {loading ? "Ingresando..." : "¡Listo, vamos!"}
+                        <ButtonTrivia className="w-full flex justify-center gap-4 !bg-neutral-800 text-neutral-100 hover:!bg-neutral-900 normal-case">
+                            {loading ? (
+                                <>
+                                    <LoaderCircle /> Ingresando...
+                                </>
+                            ) : (
+                                "¡Listo, vamos!"
+                            )}
                         </ButtonTrivia>
                     </form>
                 </main>

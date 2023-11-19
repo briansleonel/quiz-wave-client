@@ -8,6 +8,7 @@ import { toastInformation } from "../components/Sonner/sonner.toast";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks.redux";
 import { playerSetCode } from "../store/features/player.slice";
+import LoaderCircle from "../components/Loader/LoaderCircle";
 
 export default function HomePage() {
     const navigate = useNavigate();
@@ -77,13 +78,13 @@ export default function HomePage() {
                         />
 
                         <ButtonTrivia
-                            className={`w-full text-neutral-100 ${
+                            className={`w-full flex justify-center gap-3 text-neutral-100 ${
                                 !loading
                                     ? "!bg-neutral-800  hover:!bg-neutral-900"
-                                    : "!bg-gray-800"
+                                    : "!bg-gray-950"
                             }`}
                         >
-                            {loading ? "Cargando..." : "Ingresar"}
+                            {loading ? <LoaderCircle /> : "Ingresar"}
                         </ButtonTrivia>
                     </form>
                 </main>
