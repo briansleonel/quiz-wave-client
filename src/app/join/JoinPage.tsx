@@ -6,10 +6,10 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks.redux";
 import { useEffect, useState } from "react";
 import { socket } from "../../socket";
 import { toastInformation } from "../../components/Sonner/sonner.toast";
-import { playerSetName } from "../../store/features/player.slice";
 import { Player } from "../../types/quiz/player";
 import { useNavigate } from "react-router-dom";
 import LoaderCircle from "../../components/Loader/LoaderCircle";
+import { playerSetNameAndSocketId } from "../../store/features/player.slice";
 
 export default function JoinPage() {
     const navigate = useNavigate();
@@ -38,7 +38,12 @@ export default function JoinPage() {
     useEffect(() => {
         function playerJoinedRoom(player: Player) {
             if (player.socketId) {
-                dispatch(playerSetName(player.name));
+                dispatch(
+                    playerSetNameAndSocketId({
+                        name: player.name,
+                        socketId: player.socketId,
+                    })
+                );
                 navigate("/instructions");
             }
         }
