@@ -7,7 +7,7 @@ export default function ButtonTrivia({
     title,
     className,
 }: {
-    onClickFn: (e: MouseEvent<HTMLButtonElement>) => void;
+    onClickFn?: (e: MouseEvent<HTMLButtonElement>) => void;
     children: React.ReactNode;
     title?: string;
     className?: string;
