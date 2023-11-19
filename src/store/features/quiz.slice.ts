@@ -49,6 +49,9 @@ const quizWaveSlice = createSlice({
 
             state.players = updatedPlayers;
         },
+        quizChangeStatus: function (state, action: PayloadAction<StatusRoom>) {
+            state.status = action.payload;
+        },
     },
 });
 
@@ -57,6 +60,7 @@ export const {
     quizJoinPlayer,
     quizDeletePlayer,
     quizSetQuestions,
+    quizChangeStatus,
 } = quizWaveSlice.actions;
 
 export default quizWaveSlice.reducer;
