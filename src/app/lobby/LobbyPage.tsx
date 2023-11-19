@@ -7,8 +7,12 @@ import LoaderRoom from "../../components/Lobby/LoaderRoom";
 import { socket } from "../../socket";
 import PlayerName from "../../components/Lobby/PlayerName";
 import { toastInformation } from "../../components/Sonner/sonner.toast";
-import { quizSetInitial } from "../../store/features/quiz.slice";
+import {
+    quizJoinPlayer,
+    quizSetInitial,
+} from "../../store/features/quiz.slice";
 import { useAppDispatch } from "../../store/hooks.redux";
+import Loader from "../../components/Loader/Loader";
 
 export default function LobbyPage() {
     const location = useLocation();
@@ -32,6 +36,7 @@ export default function LobbyPage() {
         }
 
         function joinPlayer(player: Player) {
+            dispatch(quizJoinPlayer(player));
             setPlayers([...players, player]);
             toastInformation("Se ha unido " + player.name);
         }
@@ -68,7 +73,7 @@ export default function LobbyPage() {
                     {players.length > 0 && !loading && (
                         <section className="w-full grid grid-cols-5 gap-12">
                             {players.map((p) => (
-                                <PlayerName player={p} />
+                                <PlayerName player={p} key={p.socketId} />
                             ))}
                         </section>
                     )}
@@ -80,8 +85,8 @@ export default function LobbyPage() {
                 </main>
             )}
             {loading && (
-                <main className="w-full h-screen flex justify-center items-center">
-                    <LoaderRoom text="Cargando" />
+                <main className="w-full h-screen flex justify-center items-center flex-col">
+                    <Loader />
                 </main>
             )}
         </BackgroundQuiz>
