@@ -39,14 +39,16 @@ const quizWaveSlice = createSlice({
         ) {
             state.questions = action.payload;
         },
-        quizAddPlayer: function (state, action) {},
+        quizJoinPlayer: function (state, action: PayloadAction<Player>) {
+            state.players.push(action.payload);
+        },
         quizDeletePlayer: function (state, action) {},
     },
 });
 
 export const {
     quizSetInitial,
-    quizAddPlayer,
+    quizJoinPlayer,
     quizDeletePlayer,
     quizSetQuestions,
 } = quizWaveSlice.actions;
