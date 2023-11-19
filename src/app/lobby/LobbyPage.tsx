@@ -12,42 +12,34 @@ import {
     quizJoinPlayer,
     quizSetInitial,
 } from "../../store/features/quiz.slice";
-import { useAppDispatch } from "../../store/hooks.redux";
+import { useAppDispatch, useAppSelector } from "../../store/hooks.redux";
 import Loader from "../../components/Loader/Loader";
 
 export default function LobbyPage() {
     const location = useLocation();
     const dispatch = useAppDispatch();
+
+    const { players, code: roomCode } = useAppSelector((state) => state.quiz);
+
     const collectionId = new URLSearchParams(location.search).get("collection");
 
     // Estado para verificar cuando esté cargando los necesario para el juego
     const [loading, setLoading] = useState<boolean>(true);
 
-    const [roomCode, setRoomCode] = useState<number>();
-
-    const [players, setPlayers] = useState<Array<Player>>([]);
-
     useEffect(() => {
         function roomCreated(code: number, socketId: string) {
             setTimeout(() => {
                 dispatch(quizSetInitial({ code, socketId })); // guardo el codigo y el oscket id en el estado de la aplicacion
-                setRoomCode(code); // guardo el codigo de la sala
                 setLoading(false); // indico que ya no se está cargando
             }, 3000);
         }
 
         function joinPlayer(player: Player) {
             dispatch(quizJoinPlayer(player));
-            setPlayers([...players, player]);
             toastInformation("Se ha unido " + player.name);
         }
 
         function playerDisconnected(player: Player) {
-            const playersUpdated = players.filter(
-                (p) => p.socketId !== player.socketId
-            );
-
-            setPlayers(playersUpdated);
             dispatch(quizDeletePlayer(player.socketId));
 
             toastInformation(`Se ha desconectado un jugador`);
