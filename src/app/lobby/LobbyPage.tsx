@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BackgroundQuiz from "../../components/Trivia/BackgroundQuiz";
 import { useEffect, useState } from "react";
 import { Player } from "../../types/quiz/player";
@@ -8,15 +8,19 @@ import { socket } from "../../socket";
 import PlayerName from "../../components/Lobby/PlayerName";
 import { toastInformation } from "../../components/Sonner/sonner.toast";
 import {
+    quizChangeStatus,
     quizDeletePlayer,
     quizJoinPlayer,
+    quizSetCurrentQuestion,
     quizSetInitial,
 } from "../../store/features/quiz.slice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks.redux";
 import Loader from "../../components/Loader/Loader";
+import ButtonTrivia from "../../components/Button/ButtonTrivia";
 
 export default function LobbyPage() {
     const location = useLocation();
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
     const { players, code: roomCode } = useAppSelector((state) => state.quiz);
@@ -25,6 +29,15 @@ export default function LobbyPage() {
 
     // Estado para verificar cuando esté cargando los necesario para el juego
     const [loading, setLoading] = useState<boolean>(true);
+
+    const handleStartGame = () => {
+        if (players.length > 0 && !loading) {
+            navigate("/start")
+            socket.emit("quiz:start");
+            dispatch(quizChangeStatus("started"));
+            dispatch(quizSetCurrentQuestion())
+        }
+    };
 
     useEffect(() => {
         function roomCreated(code: number, socketId: string) {
@@ -59,22 +72,34 @@ export default function LobbyPage() {
     return (
         <BackgroundQuiz>
             {!loading && (
-                <main className="w-full h-screen flex flex-col items-center justify-start gap-36 p-20 md:px-44">
+                <main className="w-full h-screen flex flex-col items-center justify-start gap-8 p-20 md:px-44">
                     {/** Mostrar el código de juego */}
                     {roomCode && <RoomCode code={roomCode} />}
 
                     {/** Mostrar los jugadores que van ingresando a la sala */}
                     {players.length > 0 && !loading && (
-                        <section className="w-full grid grid-cols-5 gap-12">
-                            {players.map((p) => (
-                                <PlayerName player={p} key={p.socketId} />
-                            ))}
-                        </section>
+                        <>
+                            <section className="w-full flex items-center justify-end">
+                                <div>
+                                    <ButtonTrivia
+                                        className="!bg-neutral-100 text-neutral-800 hover:!bg-neutral-300 hover:!text-neutral-950 tracking-wide !font-bold !py-2"
+                                        onClickFn={handleStartGame}
+                                    >
+                                        Empezar
+                                    </ButtonTrivia>
+                                </div>
+                            </section>
+                            <section className="w-full grid grid-cols-5 gap-12">
+                                {players.map((p) => (
+                                    <PlayerName player={p} key={p.socketId} />
+                                ))}
+                            </section>
+                        </>
                     )}
 
                     {/** Mostrar dialogo de espera de jugadores en la sala */}
                     {players.length == 0 && !loading && (
-                        <LoaderRoom text="Esperando jugadores" />
+                        <LoaderRoom text="Esperando a los jugadores" />
                     )}
                 </main>
             )}
