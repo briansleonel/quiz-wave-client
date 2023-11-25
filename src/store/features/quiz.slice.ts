@@ -52,6 +52,10 @@ const quizWaveSlice = createSlice({
         quizChangeStatus: function (state, action: PayloadAction<StatusRoom>) {
             state.status = action.payload;
         },
+        quizSetCurrentQuestion: function (state) {
+            state.currentQuestion += 1;
+            state.hasNext = state.currentQuestion + 1 < state.questions.length;
+        },
     },
 });
 
@@ -61,6 +65,7 @@ export const {
     quizDeletePlayer,
     quizSetQuestions,
     quizChangeStatus,
+    quizSetCurrentQuestion,
 } = quizWaveSlice.actions;
 
 export default quizWaveSlice.reducer;
