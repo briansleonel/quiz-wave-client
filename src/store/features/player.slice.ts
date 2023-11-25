@@ -43,6 +43,10 @@ const playerSlice = createSlice({
     },
 });
 
-export const { playerSetCode, playerSetNameAndSocketId } = playerSlice.actions;
+export const {
+    playerSetCode,
+    playerSetNameAndSocketId,
+    playerSetCurrentQuestion,
+} = playerSlice.actions;
 
 export default playerSlice.reducer;
