@@ -17,6 +17,10 @@ export interface ServerEvents {
     "room:player-disconnected": (player: Player) => void;
     "player:joined-room": (player: Player) => void;
     "quiz:started": () => void;
+    "quiz:show-question": (
+        question: ICollectionQuestion,
+        hasNext: boolean
+    ) => void;
 }
 
 export interface ClientEvents {
