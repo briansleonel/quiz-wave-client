@@ -1,14 +1,39 @@
 import LoaderRoom from "../../components/Lobby/LoaderRoom";
 import BackgroundQuiz from "../../components/Trivia/BackgroundQuiz";
-import { useAppSelector } from "../../store/hooks.redux";
+import { socket } from "../../socket";
+import { useAppDispatch, useAppSelector } from "../../store/hooks.redux";
+import { useEffect, useState } from "react";
+import { ICollectionQuestion } from "../../types/question";
+import { playerSetCurrentQuestion } from "../../store/features/player.slice";
 
 export default function InstructionsPage() {
-    const { name } = useAppSelector((state) => state.player);
+    const dispatch = useAppDispatch();
+    const { name, hasNext, currentQuestion } = useAppSelector(
+        (state) => state.player
+    );
+
+    console.log(hasNext);
+    console.log(currentQuestion);
+
+    useEffect(() => {
+        function quizStarted(question: ICollectionQuestion, hasNext: boolean) {
+            dispatch(playerSetCurrentQuestion({ hasNext, question }));
+        }
+
+        socket.on("quiz:show-question", quizStarted);
+
+        return () => {
+            socket.off("quiz:show-question", quizStarted);
+        };
+    });
 
     return (
         <BackgroundQuiz>
             <main className="w-full h-screen flex items-center justify-center">
                 <section className="flex flex-col items-center gap-20 w-1/4 p-4  rounded-sm">
+                    <h4 className="font-medium text-neutral-200 text-3xl text-center">
+                        ¡Ya estás dentro del juego!
+                    </h4>
                     <div className="w-full rounded py-4 px-6 transform skew-x-12 bg-white">
                         <div className="transform -skew-x-12">
                             <h3 className="text-3xl text-center text-neutral-800 font-bold">
