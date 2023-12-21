@@ -17,10 +17,9 @@ export interface ServerEvents {
     "room:player-disconnected": (player: Player) => void;
     "player:joined-room": (player: Player) => void;
     "quiz:started": () => void;
-    "quiz:show-question": (
-        question: ICollectionQuestion,
-        hasNext: boolean
-    ) => void;
+    "quiz:show-question": (question: string) => void;
+    "quiz:show-options": (options: Array<string>) => void;
+    "quiz:countdown": (count: number) => void;
 }
 
 export interface ClientEvents {
@@ -29,4 +28,9 @@ export interface ClientEvents {
     "room:check-exists": (code: number) => void;
     "player:join-room": (code: number, playername: string) => void;
     "quiz:start": () => void;
+    "quiz:show-question": () => void;
+    "quiz:show-options": () => void;
+    "quiz:countdown": (count: number) => void;
+    //"quiz:show-question": (question: string) => void;
+    //"quiz:show-options": (options: Array<string>) => void;
 }

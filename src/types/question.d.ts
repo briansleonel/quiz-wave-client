@@ -21,3 +21,6 @@ export interface IQuestion extends Omit<ICollectionQuestion, "duration"> {
 export interface IQuestionId extends IQuestion {
     _id: string;
 }
+
+export interface ICollectionQuestionShowQuiz
+    extends Omit<ICollectionQuestion, "correct"> {}
