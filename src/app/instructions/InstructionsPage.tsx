@@ -1,13 +1,13 @@
 import LoaderRoom from "../../components/Lobby/LoaderRoom";
 import BackgroundQuiz from "../../components/Trivia/BackgroundQuiz";
 import { socket } from "../../socket";
-import { useAppDispatch, useAppSelector } from "../../store/hooks.redux";
-import { useEffect, useState } from "react";
-import { ICollectionQuestion } from "../../types/question";
-import { playerSetCurrentQuestion } from "../../store/features/player.slice";
+import { useAppSelector } from "../../store/hooks.redux";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function InstructionsPage() {
-    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
     const { name, hasNext, currentQuestion } = useAppSelector(
         (state) => state.player
     );
@@ -16,14 +16,15 @@ export default function InstructionsPage() {
     console.log(currentQuestion);
 
     useEffect(() => {
-        function quizStarted(question: ICollectionQuestion, hasNext: boolean) {
-            dispatch(playerSetCurrentQuestion({ hasNext, question }));
+        function quizStarted() {
+            navigate("/game");
+            //dispatch(playerSetCurrentQuestion({ hasNext, question }));
         }
 
-        socket.on("quiz:show-question", quizStarted);
+        socket.on("quiz:started", quizStarted);
 
         return () => {
-            socket.off("quiz:show-question", quizStarted);
+            socket.off("quiz:started", quizStarted);
         };
     });
 
