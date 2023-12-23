@@ -9,6 +9,17 @@ export default function ShowQuizPlayer() {
 
     const [showOptions, setShowOptions] = useState(false);
 
+    const [selectedOption, setSelectedOption] = useState(-1);
+    const [isSelectedOption, setIsSelectedOption] = useState(false);
+
+    const handleSelectOption = (index: number) => {
+        if (!isSelectedOption) {
+            setSelectedOption(index);
+            setIsSelectedOption(true);
+            alert("Opciones seleccionada: " + index);
+        }
+    };
+
     useEffect(() => {
         function showQuestionEvent(question: string) {
             setQuestion(question);
@@ -23,14 +34,20 @@ export default function ShowQuizPlayer() {
             setCountdown(countdown);
         }
 
+        function countdownStopped() {
+            alert("Cuenta regresiva finalizada");
+        }
+
         socket.on("quiz:show-question", showQuestionEvent);
         socket.on("quiz:countdown", updateCountodwn);
         socket.on("quiz:show-options", showOptionsEvent);
+        socket.on("quiz:countdown-stopped", countdownStopped);
 
         return () => {
             socket.off("quiz:show-question", showQuestionEvent);
             socket.off("quiz:show-options", showOptionsEvent);
             socket.off("quiz:countdown", updateCountodwn);
+            socket.off("quiz:countdown-stopped", countdownStopped);
         };
     });
 
@@ -71,6 +88,7 @@ export default function ShowQuizPlayer() {
                                 <div
                                     key={i}
                                     className={`text-white w-full p-8 font-medium text-base md:text-4xl rounded cursor-pointer transition-all duration-500 shadow shadow-neutral-900 text-center flex gap-6 items-center ${optionsModel[i].color}`}
+                                    onClick={() => handleSelectOption(i)}
                                 >
                                     {optionsModel[i].icon}{" "}
                                     <span className="">{o}</span>
