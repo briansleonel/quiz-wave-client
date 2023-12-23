@@ -10,8 +10,6 @@ export default function ShowQuizModerator() {
         (state) => state.quiz
     );
 
-    const isModerator = socketId !== undefined;
-
     const { countdown: countdownShowQuestion } = useCountdown(10);
 
     const [showOptions, setShowOptions] = useState(false);
@@ -25,19 +23,35 @@ export default function ShowQuizModerator() {
         false
     );
 
+    /**
+     * Hook para comprobar cuando la cuenta regresiva para mostrar la pregunta llega a 0
+     */
     useEffect(() => {
         if (countdownShowQuestion === 0) {
             setShowOptions(true);
             setStart(true);
+            socket.emit("quiz:show-options");
         }
     }, [countdownShowQuestion, setStart]);
 
+    /**
+     * Hook para emitir la cuenta regresiva para mostrar la pregunta o las opciones
+     */
     useEffect(() => {
         socket.emit(
             "quiz:countdown",
             showOptions ? countdownShowOptions : countdownShowQuestion
         );
     }, [countdownShowOptions, countdownShowQuestion, showOptions]);
+
+    /**
+     * Hook para comprobar cuando la cuenta regresiva para mostrar las opciones llega a 0
+     */
+    useEffect(() => {
+        if (countdownShowOptions === 0) {
+            socket.emit("quiz:stop-countdown");
+        }
+    }, [countdownShowOptions]);
 
     return (
         <main
