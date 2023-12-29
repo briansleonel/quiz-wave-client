@@ -33,4 +33,5 @@ export interface ClientEvents {
     "quiz:show-options": () => void;
     "quiz:countdown": (count: number) => void;
     "quiz:stop-countdown": () => void;
+    "quiz-player:send-answer": (index: number) => void;
 }
