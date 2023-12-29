@@ -16,6 +16,7 @@ export default function ShowQuizPlayer() {
         if (!isSelectedOption) {
             setSelectedOption(index);
             setIsSelectedOption(true);
+            socket.emit("quiz-player:send-answer", index);
             alert("Opciones seleccionada: " + index);
         }
     };
