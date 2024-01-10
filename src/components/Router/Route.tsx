@@ -23,6 +23,7 @@ import InstructionsPage from "../../app/instructions/InstructionsPage";
 import LobbyPage from "../../app/lobby/LobbyPage";
 import StartQuizPage from "../../app/start/StartQuizPage";
 import GamePage from "../../app/game/GamePage";
+import ResultPlayerPage from "../../app/answer/result/ResultPlayerPage";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
@@ -34,6 +35,7 @@ export const router = createBrowserRouter(
                 <Route path="/lobby" element={<LobbyPage />} />
                 <Route path="/start" element={<StartQuizPage />} />
                 <Route path="/game" element={<GamePage />} />
+                <Route path="/answer/result" element={<ResultPlayerPage />} />
 
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
