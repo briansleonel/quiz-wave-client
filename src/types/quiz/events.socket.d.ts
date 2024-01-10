@@ -21,6 +21,8 @@ export interface ServerEvents {
     "quiz:show-options": (options: Array<string>) => void;
     "quiz:countdown": (count: number) => void;
     "quiz:countdown-stopped": () => void;
+    "quiz:ranking-moderator": (players: Array<Player>) => void;
+    "quiz:ranking-player": (player: Player) => void;
 }
 
 export interface ClientEvents {
