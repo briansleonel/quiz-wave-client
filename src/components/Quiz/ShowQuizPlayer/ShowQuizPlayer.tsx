@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { socket } from "../../../socket";
 import { optionsModel } from "../../OptionsModel/OptionsModel";
+import { useNavigate } from "react-router-dom";
 
 export default function ShowQuizPlayer() {
+    const navigate = useNavigate();
+
     const [countdown, setCountdown] = useState<number>();
     const [question, setQuestion] = useState<string>();
     const [options, setOptions] = useState<Array<string>>();
@@ -13,11 +16,10 @@ export default function ShowQuizPlayer() {
     const [isSelectedOption, setIsSelectedOption] = useState(false);
 
     const handleSelectOption = (index: number) => {
-        if (!isSelectedOption) {
+        if (!isSelectedOption && countdown) {
             setSelectedOption(index);
             setIsSelectedOption(true);
-            socket.emit("quiz-player:send-answer", index);
-            alert("Opciones seleccionada: " + index);
+            socket.emit("quiz-player:send-answer", index, countdown);
         }
     };
 
@@ -36,7 +38,15 @@ export default function ShowQuizPlayer() {
         }
 
         function countdownStopped() {
-            alert("Cuenta regresiva finalizada");
+            if (!isSelectedOption && countdown) {
+                socket.emit(
+                    "quiz-player:send-answer",
+                    selectedOption,
+                    countdown
+                );
+            }
+
+            navigate("/answer/result");
         }
 
         socket.on("quiz:show-question", showQuestionEvent);
@@ -88,7 +98,13 @@ export default function ShowQuizPlayer() {
                             {options.map((o, i) => (
                                 <div
                                     key={i}
-                                    className={`text-white w-full p-8 font-medium text-base md:text-4xl rounded cursor-pointer transition-all duration-500 shadow shadow-neutral-900 text-center flex gap-6 items-center ${optionsModel[i].color}`}
+                                    className={`text-white w-full p-8 font-medium text-base md:text-4xl rounded cursor-pointer transition-all duration-500 shadow shadow-neutral-900 text-center flex gap-6 items-center ${
+                                        optionsModel[i].color
+                                    }  ${
+                                        isSelectedOption && selectedOption != i
+                                            ? " opacity-50"
+                                            : ""
+                                    }`}
                                     onClick={() => handleSelectOption(i)}
                                 >
                                     {optionsModel[i].icon}{" "}
