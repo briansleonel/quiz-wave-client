@@ -40,6 +40,9 @@ const playerSlice = createSlice({
             state.currentQuestion = action.payload.question;
             state.hasNext = action.payload.hasNext;
         },
+        playerUpdateScore: function (state, action: PayloadAction<number>) {
+            state.score = action.payload;
+        },
     },
 });
 
@@ -47,6 +50,7 @@ export const {
     playerSetCode,
     playerSetNameAndSocketId,
     playerSetCurrentQuestion,
+    playerUpdateScore,
 } = playerSlice.actions;
 
 export default playerSlice.reducer;
