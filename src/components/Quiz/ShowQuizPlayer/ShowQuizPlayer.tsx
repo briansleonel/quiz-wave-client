@@ -16,7 +16,7 @@ export default function ShowQuizPlayer() {
     const [isSelectedOption, setIsSelectedOption] = useState(false);
 
     const handleSelectOption = (index: number) => {
-        if (!isSelectedOption && countdown) {
+        if (!isSelectedOption && countdown && countdown > 0) {
             setSelectedOption(index);
             setIsSelectedOption(true);
             socket.emit("quiz-player:send-answer", index, countdown);
@@ -38,14 +38,6 @@ export default function ShowQuizPlayer() {
         }
 
         function countdownStopped() {
-            if (!isSelectedOption && countdown) {
-                socket.emit(
-                    "quiz-player:send-answer",
-                    selectedOption,
-                    countdown
-                );
-            }
-
             navigate("/answer/result");
         }
 
