@@ -6,12 +6,15 @@ import { playerUpdateScore } from "../../../store/features/player.slice";
 import BackgroundQuiz from "../../../components/Trivia/BackgroundQuiz";
 import Loader from "../../../components/Loader/Loader";
 import { CheckCircleFill, XCircleFill } from "react-bootstrap-icons";
+import { useNavigate } from "react-router-dom";
 
 export default function ResultPlayerPage() {
     const [loading, setloading] = useState(true);
     const { score, socketId, name } = useAppSelector((state) => state.player);
     const [statusAnswer, setStatusAnswer] = useState<boolean>();
+
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         function showRankingPlayer(player: Player) {
@@ -20,10 +23,16 @@ export default function ResultPlayerPage() {
             setloading(false);
         }
 
+        function nextQuestionPlayer() {
+            navigate("/game");
+        }
+
         socket.on("quiz:ranking-player", showRankingPlayer);
+        socket.on("quiz:next-question-player", nextQuestionPlayer);
 
         return () => {
             socket.off("quiz:ranking-player", showRankingPlayer);
+            socket.off("quiz:next-question-player", nextQuestionPlayer);
         };
     });
     return (
