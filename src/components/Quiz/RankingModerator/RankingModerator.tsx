@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Player } from "../../../types/quiz/player";
 import { socket } from "../../../socket";
 import { Slide } from "react-awesome-reveal";
