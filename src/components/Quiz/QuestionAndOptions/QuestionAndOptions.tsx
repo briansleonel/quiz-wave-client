@@ -3,6 +3,7 @@ import { optionsModel } from "../../OptionsModel/OptionsModel";
 import ButtonTrivia from "../../Button/ButtonTrivia";
 import { socket } from "../../../socket";
 import { ICollectionQuestion } from "../../../types/question";
+import Timer from "../Timer/Timer";
 
 interface Props {
     showOptions: boolean;
@@ -41,7 +42,7 @@ export default function QuestionAndOptions({
                 {countdownShowOptions === 0 && (
                     <div className="w-full flex justify-end p-4 pt-6 pr-6">
                         <ButtonTrivia
-                            className="!bg-neutral-100 text-neutral-800 hover:!bg-neutral-300 hover:!text-neutral-950 tracking-wide !font-bold !py-2 text-sm mx-0"
+                            className="!bg-neutral-100 text-neutral-800 hover:!bg-neutral-300 hover:!text-neutral-950 tracking-wide !font-bold !py-2 text-sm !mx-0"
                             onClickFn={showRanking}
                         >
                             Siguiente
@@ -51,22 +52,10 @@ export default function QuestionAndOptions({
             </div>
 
             {/** Countdown show question */}
-            {!showOptions && (
-                <div className="relative bg-indigo-600 w-24 h-24 rounded-full shadow-2xl">
-                    <span className="text-white text-5xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 block">
-                        {countdownShowQuestion}
-                    </span>
-                </div>
-            )}
+            {!showOptions && <Timer timer={countdownShowQuestion} />}
 
             {/** Countdown show options */}
-            {showOptions && (
-                <div className="relative bg-indigo-600 w-24 h-24 rounded-full shadow-2xl">
-                    <span className="text-white text-5xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 block">
-                        {countdownShowOptions}
-                    </span>
-                </div>
-            )}
+            {showOptions && <Timer timer={countdownShowOptions} />}
 
             {/** Options of question */}
             {showOptions && (

@@ -3,6 +3,7 @@ import { socket } from "../../../socket";
 import { optionsModel } from "../../OptionsModel/OptionsModel";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../Loader/Loader";
+import Timer from "../Timer/Timer";
 
 export default function ShowQuizPlayer() {
     const navigate = useNavigate();
@@ -73,21 +74,8 @@ export default function ShowQuizPlayer() {
                     >
                         {question}
                     </div>
-                    {!showOptions && (
-                        <div className="relative bg-indigo-600 w-24 h-24 rounded-full shadow-2xl">
-                            <span className="text-white text-5xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 block">
-                                {countdown}
-                            </span>
-                        </div>
-                    )}
-
-                    {showOptions && (
-                        <div className="relative bg-indigo-600 w-24 h-24 rounded-full shadow-2xl">
-                            <span className="text-white text-5xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 block">
-                                {countdown}
-                            </span>
-                        </div>
-                    )}
+                    
+                    {countdown && <Timer timer={countdown} />}
 
                     {showOptions && options && (
                         <div className="p-4 grid grid-cols-2 gap-4">
