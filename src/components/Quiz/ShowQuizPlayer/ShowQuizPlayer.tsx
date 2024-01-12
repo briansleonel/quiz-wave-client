@@ -4,6 +4,7 @@ import { optionsModel } from "../../OptionsModel/OptionsModel";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../Loader/Loader";
 import Timer from "../Timer/Timer";
+import ShowQuestion from "../ShowQuestion/ShowQuestion";
 
 export default function ShowQuizPlayer() {
     const navigate = useNavigate();
@@ -67,14 +68,11 @@ export default function ShowQuizPlayer() {
         >
             {!loading && question ? (
                 <>
-                    <div
-                        className={`bg-white  text-center font-medium transition-all  ${
-                            showOptions ? "p-8 text-5xl" : " p-12 text-6xl"
-                        }`}
-                    >
-                        {question}
-                    </div>
-                    
+                    <ShowQuestion
+                        question={question}
+                        showOptions={showOptions}
+                    />
+
                     {countdown && <Timer timer={countdown} />}
 
                     {showOptions && options && (

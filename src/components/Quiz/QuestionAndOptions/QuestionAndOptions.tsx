@@ -4,6 +4,7 @@ import ButtonTrivia from "../../Button/ButtonTrivia";
 import { socket } from "../../../socket";
 import { ICollectionQuestion } from "../../../types/question";
 import Timer from "../Timer/Timer";
+import ShowQuestion from "../ShowQuestion/ShowQuestion";
 
 interface Props {
     showOptions: boolean;
@@ -32,13 +33,11 @@ export default function QuestionAndOptions({
         >
             {/** Question */}
             <div>
-                <div
-                    className={`bg-white  text-center font-medium transition-all  ${
-                        showOptions ? "p-8 text-5xl" : " p-12 text-6xl"
-                    }`}
-                >
-                    {question.question}
-                </div>
+                <ShowQuestion
+                    question={question.question}
+                    showOptions={showOptions}
+                />
+                
                 {countdownShowOptions === 0 && (
                     <div className="w-full flex justify-end p-4 pt-6 pr-6">
                         <ButtonTrivia
