@@ -14,7 +14,11 @@ export default function useShowQuizModerator() {
         (state) => state.quiz
     );
 
-    const { countdown: countdownShowQuestion } = useCountdown(10);
+    const {
+        countdown: countdownShowQuestion,
+        resetTimer: resetTimerQuestion,
+        startTimer: startTimerQuestion,
+    } = useCountdown(10);
 
     const [showOptions, setShowOptions] = useState(false);
 
@@ -22,10 +26,11 @@ export default function useShowQuizModerator() {
         questions[currentQuestion]
     );
 
-    const { countdown: countdownShowOptions, setStart } = useCountdown(
-        question.duration,
-        false
-    );
+    const {
+        countdown: countdownShowOptions,
+        resetTimer: resetTimerOptions,
+        startTimer: startTimerOptions,
+    } = useCountdown(question.duration, false);
 
     const [showCorrect, setShowCorrect] = useState(false);
 
@@ -35,10 +40,10 @@ export default function useShowQuizModerator() {
     useEffect(() => {
         if (countdownShowQuestion === 0) {
             setShowOptions(true);
-            setStart(true);
+            startTimerOptions(true);
             socket.emit("quiz:show-options");
         }
-    }, [countdownShowQuestion, setStart]);
+    }, [countdownShowQuestion, startTimerOptions]);
 
     /**
      * Hook para emitir la cuenta regresiva para mostrar la pregunta o las opciones
@@ -61,6 +66,29 @@ export default function useShowQuizModerator() {
         }
     }, [countdownShowOptions]);
 
+    useEffect(() => {
+        setQuestion(questions[currentQuestion]);
+    }, [currentQuestion, questions]);
+
+    /**
+     * Permite resetear los valores para l cuenta regresiva del moderador
+     */
+    function resetValues() {
+        // resetear cuenta regresiva para mostrar la pregunta
+        resetTimerQuestion();
+        // iniciar la cuenta regresiva para mostrar la pregunta
+        startTimerQuestion(true);
+        // resetear la cuenta regesiva para mostrar las opciones
+        resetTimerOptions(question.duration);
+        // reestablecer los valores a default
+        setShowCorrect(false);
+        setShowOptions(false);
+    }
+
+    function nextQuestion() {
+        setQuestion(questions[currentQuestion]);
+    }
+
     return {
         countdownShowOptions,
         countdownShowQuestion,
@@ -68,5 +96,7 @@ export default function useShowQuizModerator() {
         question,
         setQuestion,
         showCorrect,
+        resetValues,
+        nextQuestion,
     };
 }
