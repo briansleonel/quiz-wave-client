@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { socket } from "../../../socket";
 import { optionsModel } from "../../OptionsModel/OptionsModel";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../Loader/Loader";
 
 export default function ShowQuizPlayer() {
     const navigate = useNavigate();
@@ -15,6 +16,8 @@ export default function ShowQuizPlayer() {
     const [selectedOption, setSelectedOption] = useState(-1);
     const [isSelectedOption, setIsSelectedOption] = useState(false);
 
+    const [loading, setloading] = useState(true);
+
     const handleSelectOption = (index: number) => {
         if (!isSelectedOption && countdown && countdown > 0) {
             setSelectedOption(index);
@@ -26,6 +29,7 @@ export default function ShowQuizPlayer() {
     useEffect(() => {
         function showQuestionEvent(question: string) {
             setQuestion(question);
+            setloading(false);
         }
 
         function showOptionsEvent(opts: Array<string>) {
@@ -60,7 +64,7 @@ export default function ShowQuizPlayer() {
                 showOptions ? "justify-between" : "justify-center"
             }`}
         >
-            {question ? (
+            {!loading && question ? (
                 <>
                     <div
                         className={`bg-white  text-center font-medium transition-all  ${
@@ -107,7 +111,7 @@ export default function ShowQuizPlayer() {
                     )}
                 </>
             ) : (
-                "Cargando..."
+                <Loader />
             )}
         </main>
     );
