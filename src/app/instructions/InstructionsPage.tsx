@@ -1,4 +1,5 @@
 import LoaderRoom from "../../components/Lobby/LoaderRoom";
+import PlayerInfo from "../../components/Quiz/PlayerInfo/PlayerInfo";
 import BackgroundQuiz from "../../components/Trivia/BackgroundQuiz";
 import { socket } from "../../socket";
 import { useAppSelector } from "../../store/hooks.redux";
@@ -30,21 +31,16 @@ export default function InstructionsPage() {
 
     return (
         <BackgroundQuiz>
-            <main className="w-full h-screen flex items-center justify-center">
-                <section className="flex flex-col items-center gap-20 w-1/4 p-4  rounded-sm">
-                    <h4 className="font-medium text-neutral-200 text-3xl text-center">
+            <main className="w-full h-screen flex  items-center flex-col justify-between">
+                <section className="w-full h-full flex flex-col items-center justify-center gap-10">
+                    <h4 className="font-medium text-neutral-50 text-3xl md:text-4xl lg:text-5xl text-center">
                         ¡Ya estás dentro del juego!
                     </h4>
-                    <div className="w-full rounded py-4 px-6 transform skew-x-12 bg-white">
-                        <div className="transform -skew-x-12">
-                            <h3 className="text-3xl text-center text-neutral-800 font-bold">
-                                {name}
-                            </h3>
-                        </div>
-                    </div>
 
-                    <LoaderRoom text="Esperando" />
+                    <h6 className="font-medium text-neutral-50 text-xl md:text-2xl lg:text-3xl text-center">¿Ves tu nombre en pantalla?</h6>
                 </section>
+
+                <PlayerInfo name={name} />
             </main>
         </BackgroundQuiz>
     );

@@ -7,6 +7,7 @@ import BackgroundQuiz from "../../../components/Trivia/BackgroundQuiz";
 import Loader from "../../../components/Loader/Loader";
 import { CheckCircleFill, XCircleFill } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
+import PlayerInfo from "../../../components/Quiz/PlayerInfo/PlayerInfo";
 
 export default function ResultPlayerPage() {
     const [loading, setloading] = useState(true);
@@ -69,13 +70,7 @@ export default function ResultPlayerPage() {
                             </div>
                         </div>
 
-                        <div className="bg-white text-neutral-900 w-full flex justify-between p-4 md:px-8 text-2xl md:text-3xl font-bold">
-                            <span>{name}</span>
-
-                            <span className="bg-neutral-800 text-white rounded p-1 px-10 text-xl">
-                                {score}
-                            </span>
-                        </div>
+                        <PlayerInfo name={name} score={score} />
                     </>
                 )}
             </main>
