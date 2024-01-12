@@ -36,5 +36,6 @@ export interface ClientEvents {
     "quiz:countdown": (count: number) => void;
     "quiz:stop-countdown": () => void;
     "quiz-player:send-answer": (index: number, countown: number) => void;
+    "quiz:get-ranking-moderator": () => void;
     "quiz:show-ranking-player": () => void;
 }
