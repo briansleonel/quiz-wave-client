@@ -11,8 +11,8 @@ interface OptionModel {
 }
 
 export const optionsModel: Array<OptionModel> = [
-    { color: "bg-red-600", icon: <CircleFill /> },
-    { color: "bg-blue-600", icon: <SquareFill /> },
-    { color: "bg-yellow-500", icon: <DiamondFill /> },
-    { color: "bg-green-600", icon: <TriangleFill /> },
+    { color: "bg-red-600", icon: <CircleFill className="w-8 md:w-12 h-fit" /> },
+    { color: "bg-blue-600", icon: <SquareFill className="w-8 md:w-12 h-fit" /> },
+    { color: "bg-yellow-500", icon: <DiamondFill className="w-8 md:w-12 h-fit" /> },
+    { color: "bg-green-600", icon: <TriangleFill className="w-8 md:w-12 h-fit" /> },
 ];
