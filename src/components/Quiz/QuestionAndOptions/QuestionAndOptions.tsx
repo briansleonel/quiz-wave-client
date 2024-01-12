@@ -5,6 +5,7 @@ import { socket } from "../../../socket";
 import { ICollectionQuestion } from "../../../types/question";
 import Timer from "../Timer/Timer";
 import ShowQuestion from "../ShowQuestion/ShowQuestion";
+import OptionQuiz from "../OptionQuiz/OptionQuiz";
 
 interface Props {
     showOptions: boolean;
@@ -37,7 +38,7 @@ export default function QuestionAndOptions({
                     question={question.question}
                     showOptions={showOptions}
                 />
-                
+
                 {countdownShowOptions === 0 && (
                     <div className="w-full flex justify-end p-4 pt-6 pr-6">
                         <ButtonTrivia
@@ -58,38 +59,64 @@ export default function QuestionAndOptions({
 
             {/** Options of question */}
             {showOptions && (
-                <div className="p-4 grid grid-cols-2 gap-4">
+                <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                     {question.options.map((o, i) => (
-                        <div
-                            key={i}
-                            className={`text-white w-full p-8 font-medium text-base md:text-4xl rounded cursor-pointer transition-all duration-500 shadow shadow-neutral-900 text-center flex gap-6 items-center justify-between ${
-                                optionsModel[i].color
-                            } relative ${
-                                countdownShowOptions === 0 &&
-                                i !== question.correct
-                                    ? "opacity-50"
-                                    : ""
-                            }`}
-                        >
-                            <p className="flex gap-6 items-center">
-                                {optionsModel[i].icon}{" "}
-                                <span className="">{o}</span>
-                            </p>
-                            <span className="">
-                                {showCorrect ? (
-                                    i === question.correct ? (
-                                        <Check className="w-16 h-fit " />
+                            <OptionQuiz
+                                className={`${optionsModel[i].color} ${
+                                    countdownShowOptions === 0 &&
+                                    i !== question.correct
+                                        ? "opacity-50"
+                                        : ""
+                                }`}
+                                icon={optionsModel[i].icon}
+                                option={o}
+                            >
+                                <span className="">
+                                    {showCorrect ? (
+                                        i === question.correct ? (
+                                            <Check className="w-10 md:w-12 h-fit " />
+                                        ) : (
+                                            <X className="w-10 md:w-12 h-fit " />
+                                        )
                                     ) : (
-                                        <X className="w-16 h-fit " />
-                                    )
-                                ) : (
-                                    ""
-                                )}
-                            </span>
-                        </div>
+                                        ""
+                                    )}
+                                </span>
+                            </OptionQuiz>
                     ))}
                 </div>
             )}
         </main>
     );
 }
+
+/**
+ * 
+                            <div
+                                key={i}
+                                className={`text-white w-full p-4 md:p-8 font-medium text-base md:text-4xl rounded cursor-pointer transition-all duration-500 shadow shadow-neutral-900 text-center flex gap-4 md:gap-6 items-center justify-between ${
+                                    optionsModel[i].color
+                                } ${
+                                    countdownShowOptions === 0 &&
+                                    i !== question.correct
+                                        ? "opacity-50"
+                                        : ""
+                                }`}
+                            >
+                                <p className="flex gap-4 md:gap-6 items-center">
+                                    {optionsModel[i].icon}{" "}
+                                    <span className="">{o}</span>
+                                </p>
+                                <span className="">
+                                    {showCorrect ? (
+                                        i === question.correct ? (
+                                            <Check className="w-10 md:w-12 h-fit " />
+                                        ) : (
+                                            <X className="w-10 md:w-12 h-fit " />
+                                        )
+                                    ) : (
+                                        ""
+                                    )}
+                                </span>
+                            </div>
+ */

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../../Loader/Loader";
 import Timer from "../Timer/Timer";
 import ShowQuestion from "../ShowQuestion/ShowQuestion";
+import OptionQuiz from "../OptionQuiz/OptionQuiz";
 
 export default function ShowQuizPlayer() {
     const navigate = useNavigate();
@@ -78,7 +79,30 @@ export default function ShowQuizPlayer() {
                     {showOptions && options && (
                         <div className="p-4 grid grid-cols-2 gap-4">
                             {options.map((o, i) => (
-                                <div
+                                <OptionQuiz
+                                    key={i}
+                                    icon={optionsModel[i].icon}
+                                    option={o}
+                                    onClick={() => handleSelectOption(i)}
+                                    className={`${optionsModel[i].color}  ${
+                                        isSelectedOption && selectedOption != i
+                                            ? " opacity-50"
+                                            : ""
+                                    }`}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </>
+            ) : (
+                <Loader />
+            )}
+        </main>
+    );
+}
+
+/**
+ * <div
                                     key={i}
                                     className={`text-white w-full p-8 font-medium text-base md:text-4xl rounded cursor-pointer transition-all duration-500 shadow shadow-neutral-900 text-center flex gap-6 items-center ${
                                         optionsModel[i].color
@@ -92,13 +116,4 @@ export default function ShowQuizPlayer() {
                                     {optionsModel[i].icon}{" "}
                                     <span className="">{o}</span>
                                 </div>
-                            ))}
-                        </div>
-                    )}
-                </>
-            ) : (
-                <Loader />
-            )}
-        </main>
-    );
-}
+ */
