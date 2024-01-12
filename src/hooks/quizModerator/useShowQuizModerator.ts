@@ -4,6 +4,11 @@ import { ICollectionQuestion } from "../../types/question";
 import { socket } from "../../socket";
 import { useAppSelector } from "../../store/hooks.redux";
 
+/**
+ * Hook personalizado que permite gestionar y proveer de estados necesarios para controlar el tiempo en el que se muestra una pregunta,
+ * cuando se muestran las opciones, la pregunta que se está usando actualmente, mostrar la respuesta correcta al finalizar el contador, entre otras
+ * @returns objeto de estados
+ */
 export default function useShowQuizModerator() {
     const { currentQuestion, questions, socketId } = useAppSelector(
         (state) => state.quiz
@@ -21,6 +26,8 @@ export default function useShowQuizModerator() {
         question.duration,
         false
     );
+
+    const [showCorrect, setShowCorrect] = useState(false);
 
     /**
      * Hook para comprobar cuando la cuenta regresiva para mostrar la pregunta llega a 0
@@ -49,6 +56,8 @@ export default function useShowQuizModerator() {
     useEffect(() => {
         if (countdownShowOptions === 0) {
             socket.emit("quiz:stop-countdown");
+            setShowCorrect(true);
+            socket.emit("quiz:show-ranking-player");
         }
     }, [countdownShowOptions]);
 
@@ -58,5 +67,6 @@ export default function useShowQuizModerator() {
         showOptions,
         question,
         setQuestion,
+        showCorrect,
     };
 }
