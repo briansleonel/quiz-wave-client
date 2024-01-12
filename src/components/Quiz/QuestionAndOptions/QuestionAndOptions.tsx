@@ -1,18 +1,24 @@
 import { Check, X } from "react-bootstrap-icons";
-import useShowQuizModerator from "../../../hooks/quizModerator/useShowQuizModerator";
 import { optionsModel } from "../../OptionsModel/OptionsModel";
 import ButtonTrivia from "../../Button/ButtonTrivia";
 import { socket } from "../../../socket";
+import { ICollectionQuestion } from "../../../types/question";
 
-export default function QuestionAndOptions() {
-    const {
-        countdownShowOptions,
-        countdownShowQuestion,
-        question,
-        showOptions,
-        showCorrect,
-    } = useShowQuizModerator();
+interface Props {
+    showOptions: boolean;
+    question: ICollectionQuestion;
+    countdownShowQuestion: number;
+    countdownShowOptions: number;
+    showCorrect: boolean;
+}
 
+export default function QuestionAndOptions({
+    countdownShowOptions,
+    countdownShowQuestion,
+    question,
+    showCorrect,
+    showOptions,
+}: Props) {
     const showRanking = () => {
         socket.emit("quiz:get-ranking-moderator");
     };
