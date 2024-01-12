@@ -23,6 +23,8 @@ export interface ServerEvents {
     "quiz:countdown-stopped": () => void;
     "quiz:ranking-moderator": (players: Array<Player>) => void;
     "quiz:ranking-player": (player: Player) => void;
+    "quiz:next-question": (hasNext: boolean, currentQuestion: number) => void;
+    "quiz:next-question-player": () => void;
 }
 
 export interface ClientEvents {
@@ -38,4 +40,5 @@ export interface ClientEvents {
     "quiz-player:send-answer": (index: number, countown: number) => void;
     "quiz:get-ranking-moderator": () => void;
     "quiz:show-ranking-player": () => void;
+    "quiz:next-question": () => void;
 }
