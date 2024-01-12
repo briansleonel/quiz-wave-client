@@ -77,7 +77,7 @@ export default function ShowQuizPlayer() {
                     {countdown && <Timer timer={countdown} />}
 
                     {showOptions && options && (
-                        <div className="p-4 grid grid-cols-2 gap-4">
+                        <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                             {options.map((o, i) => (
                                 <OptionQuiz
                                     key={i}

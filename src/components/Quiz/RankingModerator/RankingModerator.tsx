@@ -2,12 +2,15 @@ import { Player } from "../../../types/quiz/player";
 import { socket } from "../../../socket";
 import { Slide } from "react-awesome-reveal";
 import ButtonTrivia from "../../Button/ButtonTrivia";
+import { useAppSelector } from "../../../store/hooks.redux";
 
 export default function RankingModerator({
     rankingPlayers,
 }: {
     rankingPlayers: Array<Player>;
 }) {
+    const { hasNext } = useAppSelector((state) => state.quiz);
+
     const duration = 1000;
     const damping = 0.7;
 
@@ -22,12 +25,21 @@ export default function RankingModerator({
             </h2>
 
             <div className="w-full flex justify-end p-4 pt-6 pr-6">
-                <ButtonTrivia
-                    className="!bg-neutral-100 text-neutral-800 hover:!bg-neutral-300 hover:!text-neutral-950 tracking-wide !font-bold !py-2 text-sm mx-0"
-                    onClickFn={nextQuestion}
-                >
-                    Siguiente
-                </ButtonTrivia>
+                {hasNext ? (
+                    <ButtonTrivia
+                        className="!bg-neutral-100 text-neutral-800 hover:!bg-neutral-300 hover:!text-neutral-950 tracking-wide !font-bold !py-2 text-sm !mx-0"
+                        onClickFn={nextQuestion}
+                    >
+                        Siguiente
+                    </ButtonTrivia>
+                ) : (
+                    <ButtonTrivia
+                        className="!bg-neutral-100 text-neutral-800 hover:!bg-neutral-300 hover:!text-neutral-950 tracking-wide !font-bold !py-2 text-sm !mx-0"
+                        onClickFn={nextQuestion}
+                    >
+                        Finalizar
+                    </ButtonTrivia>
+                )}
             </div>
 
             <div className="w-full h-full  p-4 mx-auto lg:w-3/5 xl:w-2/5">
