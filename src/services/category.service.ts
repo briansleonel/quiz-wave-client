@@ -1,4 +1,3 @@
-
 import { isAxiosError } from "axios";
 import { __instanceAxios, endpointsAPI } from "../config/config";
 import { IQuestionCategory } from "../types/questionCategory";
@@ -11,9 +10,7 @@ import { APIResponse, PaginationFetch } from "../types/api";
  */
 async function getAllCategories() {
     try {
-        const response = await __instanceAxios.get(
-            `all/${endpointsAPI.CATEGORY}`
-        );
+        const response = await __instanceAxios.get(`${endpointsAPI.CATEGORY}?limit=1000`);
         return response.data.data as Array<IQuestionCategory>;
     } catch (error) {
         // Si el error es una instancia de AxiosError, puedes acceder a la propiedad response
