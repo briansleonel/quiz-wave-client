@@ -5,8 +5,8 @@ import { loadStateTokenLocalStorage } from "../libs/token.localstorage";
  * Variables de entorno de la aplicación
  */
 export const config = {
-    URL_API: import.meta.env.URL_API || "http://localhost:3001/api/",
-    URL_SOCKET: import.meta.env.URL_SOCKET || "http://localhost:3002",
+    URL_API: import.meta.env.VITE_URL_API,
+    URL_SOCKET: import.meta.env.VITE_URL_SOCKET,
 };
 
 /**
@@ -24,12 +24,12 @@ export const __instanceAxios = axios.create({
  * Endpoints de la API
  */
 export enum endpointsAPI {
-    USER = "user",
+    USER = "users",
     LOGIN = "login",
     LOGOUT = "logout",
     REGISTER = "register",
-    QUESTION = "question",
-    CATEGORY = "category",
+    QUESTION = "questions",
+    CATEGORY = "categories",
     GAME = "game",
-    COLLECTION = "collection",
+    COLLECTION = "collections",
 }
