@@ -13,10 +13,12 @@ import {
     quizJoinPlayer,
     quizSetCurrentQuestion,
     quizSetInitial,
+    quizSetQuestions,
 } from "../../store/features/quiz.slice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks.redux";
 import Loader from "../../components/Loader/Loader";
 import ButtonTrivia from "../../components/Button/ButtonTrivia";
+import { ICollectionQuestion } from "../../types/question";
 
 export default function LobbyPage() {
     const location = useLocation();
@@ -40,7 +42,12 @@ export default function LobbyPage() {
     };
 
     useEffect(() => {
-        function roomCreated(code: number, socketId: string) {
+        function roomCreated(
+            code: number,
+            socketId: string,
+            questions: Array<ICollectionQuestion>
+        ) {
+            dispatch(quizSetQuestions(questions));
             dispatch(quizSetInitial({ code, socketId })); // guardo el codigo y el oscket id en el estado de la aplicacion
             setLoading(false); // indico que ya no se está cargando
         }
@@ -56,14 +63,21 @@ export default function LobbyPage() {
             toastInformation(`Se ha desconectado un jugador`);
         }
 
+        function roomError(message: string) {
+            setLoading(false);
+            toastInformation(message);
+        }
+
         socket.on("room:created", roomCreated);
         socket.on("room:join-player", joinPlayer);
         socket.on("room:player-disconnected", playerDisconnected);
+        socket.on("room:error", roomError);
 
         return () => {
             socket.off("room:created", roomCreated);
             socket.off("room:join-player", joinPlayer);
             socket.off("room:player-disconnected", playerDisconnected);
+            socket.off("room:error", roomError);
         };
     });
 
