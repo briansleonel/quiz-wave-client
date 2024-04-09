@@ -26,13 +26,11 @@ export default function HomePage() {
             if (inputCodeRoom.inputProps.value != "") {
                 setLoading(true); // indico que se está cargando
                 socket.connect(); // conecto el cliente al servidor
-                setTimeout(() => {
-                    // emito el evento desde el cliente para verificar si existe una sala
-                    socket.emit(
-                        "room:check-exists",
-                        Number(inputCodeRoom.inputProps.value)
-                    );
-                }, 3000);
+                // emito el evento desde el cliente para verificar si existe una sala
+                socket.emit(
+                    "room:check-exists",
+                    Number(inputCodeRoom.inputProps.value)
+                );
             } else {
                 toastInformation("Ingrese un PIN de juego.");
             }

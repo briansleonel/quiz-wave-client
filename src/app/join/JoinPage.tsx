@@ -26,9 +26,7 @@ export default function JoinPage() {
             const playername = inputPlayerName.inputProps.value;
             if (playername !== "" && code) {
                 setLoading(true);
-                setTimeout(() => {
-                    socket.emit("player:join-room", code, playername);
-                }, 3000);
+                socket.emit("player:join-room", code, playername);
             } else {
                 toastInformation("Ingrese un nombre");
             }

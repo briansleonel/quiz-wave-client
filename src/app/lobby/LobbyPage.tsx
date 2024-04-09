@@ -32,19 +32,17 @@ export default function LobbyPage() {
 
     const handleStartGame = () => {
         if (players.length > 0 && !loading) {
-            navigate("/start")
+            navigate("/start");
             socket.emit("quiz:start");
             dispatch(quizChangeStatus("started"));
-            dispatch(quizSetCurrentQuestion())
+            dispatch(quizSetCurrentQuestion());
         }
     };
 
     useEffect(() => {
         function roomCreated(code: number, socketId: string) {
-            setTimeout(() => {
-                dispatch(quizSetInitial({ code, socketId })); // guardo el codigo y el oscket id en el estado de la aplicacion
-                setLoading(false); // indico que ya no se está cargando
-            }, 3000);
+            dispatch(quizSetInitial({ code, socketId })); // guardo el codigo y el oscket id en el estado de la aplicacion
+            setLoading(false); // indico que ya no se está cargando
         }
 
         function joinPlayer(player: Player) {
