@@ -61,28 +61,29 @@ export default function QuestionAndOptions({
             {showOptions && (
                 <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                     {question.options.map((o, i) => (
-                            <OptionQuiz
-                                className={`${optionsModel[i].color} ${
-                                    countdownShowOptions === 0 &&
-                                    i !== question.correct
-                                        ? "opacity-50"
-                                        : ""
-                                }`}
-                                icon={optionsModel[i].icon}
-                                option={o}
-                            >
-                                <span className="">
-                                    {showCorrect ? (
-                                        i === question.correct ? (
-                                            <Check className="w-10 md:w-12 h-fit " />
-                                        ) : (
-                                            <X className="w-10 md:w-12 h-fit " />
-                                        )
+                        <OptionQuiz
+                            className={`${optionsModel[i].color} ${
+                                countdownShowOptions === 0 &&
+                                i !== question.correct
+                                    ? "opacity-50"
+                                    : ""
+                            }`}
+                            icon={optionsModel[i].icon}
+                            option={o}
+                            key={i}
+                        >
+                            <span className="">
+                                {showCorrect ? (
+                                    i === question.correct ? (
+                                        <Check className="w-10 md:w-12 h-fit " />
                                     ) : (
-                                        ""
-                                    )}
-                                </span>
-                            </OptionQuiz>
+                                        <X className="w-10 md:w-12 h-fit " />
+                                    )
+                                ) : (
+                                    ""
+                                )}
+                            </span>
+                        </OptionQuiz>
                     ))}
                 </div>
             )}
