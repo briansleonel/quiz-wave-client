@@ -3,19 +3,26 @@ import { socket } from "../../../socket";
 import { Slide } from "react-awesome-reveal";
 import ButtonTrivia from "../../Button/ButtonTrivia";
 import { useAppSelector } from "../../../store/hooks.redux";
+import { useNavigate } from "react-router-dom";
 
 export default function RankingModerator({
     rankingPlayers,
 }: {
     rankingPlayers: Array<Player>;
 }) {
-    const { hasNext } = useAppSelector((state) => state.quiz);
+    const navigate = useNavigate();
+    const { hasNext, code } = useAppSelector((state) => state.quiz);
 
     const duration = 1000;
     const damping = 0.7;
 
     const nextQuestion = () => {
         socket.emit("quiz:next-question");
+    };
+
+    const closeRoom = () => {
+        socket.emit("room:close-room", code!);
+        navigate("/dashboard/collection");
     };
 
     return (
@@ -35,7 +42,7 @@ export default function RankingModerator({
                 ) : (
                     <ButtonTrivia
                         className="!bg-neutral-100 text-neutral-800 hover:!bg-neutral-300 hover:!text-neutral-950 tracking-wide !font-bold !py-2 text-sm !mx-0"
-                        onClickFn={nextQuestion}
+                        onClickFn={closeRoom}
                     >
                         Finalizar
                     </ButtonTrivia>
