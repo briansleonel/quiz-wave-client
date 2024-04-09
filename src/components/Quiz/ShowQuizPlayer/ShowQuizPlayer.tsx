@@ -74,7 +74,11 @@ export default function ShowQuizPlayer() {
                         showOptions={showOptions}
                     />
 
-                    {countdown && <Timer timer={countdown} />}
+                    {countdown && (
+                        <div className={`${!showOptions ? "mt-14" : ""} mx-auto`}>
+                            <Timer timer={countdown} />
+                        </div>
+                    )}
 
                     {showOptions && options && (
                         <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
