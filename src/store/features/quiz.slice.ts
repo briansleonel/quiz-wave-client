@@ -63,6 +63,15 @@ const quizWaveSlice = createSlice({
             state.currentQuestion = action.payload.currentQuestion;
             state.hasNext = action.payload.hasNext;
         },
+        quizClear: function (state) {
+            state.code = undefined;
+            state.socketId = undefined;
+            state.players = [];
+            state.questions = [];
+            state.status = "finished";
+            state.hasNext = false;
+            state.currentQuestion = -1;
+        },
     },
 });
 
@@ -74,6 +83,7 @@ export const {
     quizChangeStatus,
     quizSetCurrentQuestion,
     quizNextQuestion,
+    quizClear,
 } = quizWaveSlice.actions;
 
 export default quizWaveSlice.reducer;
