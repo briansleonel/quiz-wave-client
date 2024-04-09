@@ -34,7 +34,7 @@ export default function useCountdown(initialTime: number, auto = true) {
         setStart(false);
     }
 
-    return { countdown, resetTimer, startTimer: setStart };
+    return { countdown, resetTimer, startTimer: setStart, setCountdown };
 }
 
 /*
