@@ -13,7 +13,6 @@ export default function useShowQuizModerator() {
     const { currentQuestion, questions, socketId } = useAppSelector(
         (state) => state.quiz
     );
-
     const {
         countdown: countdownShowQuestion,
         resetTimer: resetTimerQuestion,
@@ -30,9 +29,16 @@ export default function useShowQuizModerator() {
         countdown: countdownShowOptions,
         resetTimer: resetTimerOptions,
         startTimer: startTimerOptions,
+        setCountdown,
     } = useCountdown(question.duration, false);
 
     const [showCorrect, setShowCorrect] = useState(false);
+
+    function endCounter() {
+        socket.emit("quiz:stop-countdown");
+        setShowCorrect(true);
+        socket.emit("quiz:show-ranking-player");
+    }
 
     /**
      * Hook para comprobar cuando la cuenta regresiva para mostrar la pregunta llega a 0
@@ -60,11 +66,22 @@ export default function useShowQuizModerator() {
      */
     useEffect(() => {
         if (countdownShowOptions === 0) {
-            socket.emit("quiz:stop-countdown");
-            setShowCorrect(true);
-            socket.emit("quiz:show-ranking-player");
+            endCounter();
         }
     }, [countdownShowOptions]);
+
+    useEffect(() => {
+        function allPlayersResponded() {
+            setCountdown(0);
+            endCounter();
+        }
+
+        socket.on("quiz:all-players-responded", allPlayersResponded);
+
+        return () => {
+            socket.off("quiz:all-players-responded", allPlayersResponded);
+        };
+    });
 
     useEffect(() => {
         setQuestion(questions[currentQuestion]);
