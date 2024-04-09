@@ -10,3 +10,12 @@ export interface NavLink {
     icon: Icon;
     href: string;
 }
+
+export interface InputPropType {
+    value: string;
+    onChange: (e: React.FormEvent<HTMLInputElement>) => void;
+}
+export interface InputTextAreaPropType {
+    value: string;
+    onChange: (e: React.FormEvent<HTMLTextAreaElement>) => void;
+}

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import React from "react";
 import {
+    Collection,
     Diagram2Fill,
     GearFill,
     House,
@@ -17,6 +18,7 @@ const menuItems: Array<NavLink> = [
     { name: "Dashboard", icon: Speedometer2, href: "/dashboard" },
     { name: "Categorías", icon: Diagram2Fill, href: "/dashboard/category" },
     { name: "Preguntas", icon: Journals, href: "/dashboard/question" },
+    { name: "Colecciones", icon: Collection, href: "/dashboard/collection" },
     { name: "Usuarios", icon: PeopleFill, href: "/dashboard/user" },
     { name: "Mi cuenta", icon: GearFill, href: "/dashboard/account" },
 ];

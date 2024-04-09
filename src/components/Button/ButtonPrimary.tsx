@@ -20,7 +20,7 @@ export default function ButtonPrimary({
             type={type}
             onClick={onClick}
             className={classNames(
-                "uppercase font-light  p-2 rounded-md  transition-colors ease-in-out duration-500 text-white bg-blue-700 hover:bg-blue-600 drop-shadow",
+                "uppercase font-light  p-2 rounded transition-all ease-in-out duration-500 text-white bg-blue-700 hover:bg-blue-600 drop-shadow",
                 className ? className : ""
             )}
             title={title ? title : ""}

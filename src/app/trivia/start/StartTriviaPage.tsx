@@ -116,7 +116,7 @@ export default function StartTriviaPage() {
                                         currentQuestion.options[
                                             currentQuestion.correct
                                         ],
-                                    description: currentQuestion.description,
+                                    description: currentQuestion.description!,
                                 }}
                             />
                         )}

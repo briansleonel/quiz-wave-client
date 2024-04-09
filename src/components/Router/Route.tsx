@@ -18,12 +18,25 @@ import CollectionPage from "../../app/dashboard/collection/CollectionPage";
 import CollectionABMPage from "../../app/dashboard/collection/CollectionABMPage";
 import TriviaPage from "../../app/trivia/TriviaPage";
 import StartTriviaPage from "../../app/trivia/start/StartTriviaPage";
+import JoinPage from "../../app/join/JoinPage";
+import InstructionsPage from "../../app/instructions/InstructionsPage";
+import LobbyPage from "../../app/lobby/LobbyPage";
+import StartQuizPage from "../../app/start/StartQuizPage";
+import GamePage from "../../app/game/GamePage";
+import ResultPlayerPage from "../../app/answer/result/ResultPlayerPage";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
         <>
             <Route element={<LayoutMain />}>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/join" element={<JoinPage />} />
+                <Route path="/instructions" element={<InstructionsPage />} />
+                <Route path="/lobby" element={<LobbyPage />} />
+                <Route path="/start" element={<StartQuizPage />} />
+                <Route path="/game" element={<GamePage />} />
+                <Route path="/answer/result" element={<ResultPlayerPage />} />
+
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/trivia" element={<TriviaPage />} />

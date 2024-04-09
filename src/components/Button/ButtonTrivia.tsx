@@ -7,20 +7,20 @@ export default function ButtonTrivia({
     title,
     className,
 }: {
-    onClickFn: (e: MouseEvent<HTMLButtonElement>) => void;
+    onClickFn?: (e: MouseEvent<HTMLButtonElement>) => void;
     children: React.ReactNode;
-    title: string;
+    title?: string;
     className?: string;
     //type: 'submit' | 'reset' | 'button' | undefined;
 }) {
     return (
         <button
             className={classNames(
-                "rounded bg-purple-600 text-white hover:text-white shadow shadow-neutral-900 transition-all duration-500 mx-auto px-12 py-4 font-bold text-xl tracking-widest uppercase",
+                "rounded bg-purple-600 text-neutral-50 hover:text-neutral-50 shadow shadow-neutral-800 transition-all duration-500 mx-auto px-4 py-2 font-medium text-lg uppercase",
                 className ? className : ""
             )}
             onClick={onClickFn}
-            title={title}
+            title={title ?? ""}
         >
             {children}
         </button>

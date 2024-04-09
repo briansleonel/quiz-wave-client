@@ -11,3 +11,9 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+.inputDisableArrows[type="number"]::-webkit-inner-spin-button,
+.inputDisableArrows[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

@@ -1,64 +1,38 @@
 import { useParams } from "react-router-dom";
-import { ICollectionQuestion } from "../../../types/collection";
-
-const pregsMock: Array<ICollectionQuestion> = [
-    {
-        duration: 20,
-        question: {
-            _id: "64c07d74479f3c5d5c2b1eea",
-            question: "¿Cuál es el hueso más pequeño del cuerpo?",
-            options: [
-                "El estribo",
-                "La falange",
-                "El yunque",
-                "Ninguna es correcta",
-            ],
-            correct: 0,
-            category: {
-                _id: "6490d5b75081691a8ac04056",
-                name: "ciencia",
-            },
-            user: "6495c8caac05cd47cf02b0c7",
-            verified: true,
-            description: "",
-        },
-    },
-    {
-        duration: 20,
-        question: {
-            _id: "64c07d74479f3c5d5c2b1eea",
-            question: "¿Qué estudia la icitología?",
-            options: [
-                "Los peces",
-                "Los insectos",
-                "Las erupciones cutáneas",
-                "Las rocas",
-            ],
-            correct: 0,
-            verified: true,
-            category: {
-                _id: "6490d5b75081691a8ac04056",
-                name: "ciencia",
-            },
-            user: "6495c8caac05cd47cf02b0c7",
-            description: "",
-        },
-    },
-];
+import ContainerUtil from "../../../components/Layout/ContainerUtil";
+import { useState, useEffect } from "react";
+import { ICollectionWithUpdatedAt } from "../../../types/collection";
+import { ICollectionQuestionWithId } from "../../../types/question";
+import { useQuery } from "@tanstack/react-query";
+import collectionService from "../../../services/collection.service";
+import CollectionForm from "../../../components/Forms/CollectionForm/CollectionForm";
+import AlertDanger from "../../../components/Alerts/Alert";
 
 export default function CollectionABMPage() {
     const params = useParams<{ id: string }>();
 
+    // Verificar si se va a editar una collection o no
+    const [edit, setEdit] = useState<boolean>(params.id !== "new");
+
+    // react-query para la obtención de datos desde la api
+    const { data, isLoading, error, isFetching } = useQuery({
+        queryKey: ["collection"],
+        queryFn: () => collectionService.getCollection(params.id!),
+        enabled: edit,
+        cacheTime: 0,
+    });
+
     return (
-        <>
-            <section id="showQuestions">
-                {pregsMock.map((questionColl, index) => (
-                    <div>
-                        <span>#{index + 1}</span>
-                        <span>{questionColl.question.question}</span>
-                    </div>
-                ))}
-            </section>
-        </>
+        <ContainerUtil>
+            {!edit ? (
+                <CollectionForm edit={edit} />
+            ) : error && error instanceof Error ? (
+                <AlertDanger>Error: {error.message}</AlertDanger>
+            ) : isLoading ? (
+                <p>Cargando datos...</p>
+            ) : data && edit ? (
+                <CollectionForm edit={edit} collection={data.data} />
+            ) : null}
+        </ContainerUtil>
     );
 }
