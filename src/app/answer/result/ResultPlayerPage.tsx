@@ -28,12 +28,18 @@ export default function ResultPlayerPage() {
             navigate("/game");
         }
 
+        function closedRoom() {
+            navigate("/");
+        }
+
         socket.on("quiz:ranking-player", showRankingPlayer);
         socket.on("quiz:next-question-player", nextQuestionPlayer);
+        socket.on("room:closed-room", closedRoom);
 
         return () => {
             socket.off("quiz:ranking-player", showRankingPlayer);
             socket.off("quiz:next-question-player", nextQuestionPlayer);
+            socket.off("room:closed-room", closedRoom);
         };
     });
     return (
