@@ -2,8 +2,9 @@ import { Player } from "../../../types/quiz/player";
 import { socket } from "../../../socket";
 import { Slide } from "react-awesome-reveal";
 import ButtonTrivia from "../../Button/ButtonTrivia";
-import { useAppSelector } from "../../../store/hooks.redux";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks.redux";
 import { useNavigate } from "react-router-dom";
+import { quizClear } from "../../../store/features/quiz.slice";
 
 export default function RankingModerator({
     rankingPlayers,
@@ -11,6 +12,7 @@ export default function RankingModerator({
     rankingPlayers: Array<Player>;
 }) {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const { hasNext, code } = useAppSelector((state) => state.quiz);
 
     const duration = 1000;
@@ -23,6 +25,7 @@ export default function RankingModerator({
     const closeRoom = () => {
         socket.emit("room:close-room", code!);
         navigate("/dashboard/collection");
+        dispatch(quizClear());
     };
 
     return (
