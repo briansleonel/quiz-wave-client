@@ -52,7 +52,11 @@ export default function QuestionAndOptions({
             </div>
 
             {/** Countdown show question */}
-            {!showOptions && <Timer timer={countdownShowQuestion} />}
+            {!showOptions && (
+                <div className="mt-14 mx-auto">
+                    <Timer timer={countdownShowQuestion} />
+                </div>
+            )}
 
             {/** Countdown show options */}
             {showOptions && <Timer timer={countdownShowOptions} />}
