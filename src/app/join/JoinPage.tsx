@@ -46,10 +46,17 @@ export default function JoinPage() {
             }
         }
 
+        function roomError(message: string) {
+            setLoading(false);
+            toastInformation(message);
+        }
+
         socket.on("player:joined-room", playerJoinedRoom);
+        socket.on("room:error", roomError);
 
         return () => {
             socket.off("player:joined-room", playerJoinedRoom);
+            socket.off("room:error", roomError);
         };
     });
 
