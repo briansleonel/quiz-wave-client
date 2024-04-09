@@ -7,15 +7,13 @@ import {
     House,
     Journals,
     PeopleFill,
-    Speedometer2,
 } from "react-bootstrap-icons";
 import { NavLink } from "../../types/util";
 import { useAppSelector } from "../../store/hooks.redux";
 import { Role } from "../../libs/enums/role.enum";
 
 const menuItems: Array<NavLink> = [
-    { name: "Inicio", icon: House, href: "/" },
-    { name: "Dashboard", icon: Speedometer2, href: "/dashboard" },
+    { name: "Dashboard", icon: House, href: "/dashboard" },
     { name: "Categorías", icon: Diagram2Fill, href: "/dashboard/category" },
     { name: "Preguntas", icon: Journals, href: "/dashboard/question" },
     { name: "Colecciones", icon: Collection, href: "/dashboard/collection" },
