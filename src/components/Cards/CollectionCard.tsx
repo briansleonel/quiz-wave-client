@@ -29,9 +29,8 @@ export default function CollectionCard({ collection }: Props) {
     const handleStart = (id: string) => {
         // redirecciono a la página del lobby
         navigate({ pathname: "/lobby", search: `?collection=${id}` });
-        dispatch(quizSetQuestions(collection.questions));
         // realizo la conexión al socket
-        socket.connect().emit("room:create", collection.questions);
+        socket.connect().emit("room:create", collection._id);
     };
 
     return (
