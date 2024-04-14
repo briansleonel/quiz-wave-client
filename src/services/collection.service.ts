@@ -9,9 +9,9 @@ import {
 import { getQueryCollection } from "../libs/query.collection";
 
 export interface QueryFetchCollection extends PaginationFetch {
-    searchText: string;
-    user: string;
-    recents: boolean;
+    searchText?: string;
+    user?: string;
+    recents?: boolean;
 }
 
 /**

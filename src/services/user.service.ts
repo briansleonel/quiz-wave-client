@@ -76,7 +76,6 @@ async function getUsers({
         const response = await __instanceAxios.get(
             endpointsAPI.USER + paginationData + queryData
         );
-        console.log(response.data);
 
         return response.data as APIResponse<Array<IUser>>;
     } catch (error) {
@@ -121,7 +120,7 @@ async function deleteUser(idUser: string) {
         const response = await __instanceAxios.delete(
             `${endpointsAPI.USER}/${idUser}`
         );
-        console.log(response.data);
+
         return response.data;
     } catch (error) {
         // Si el error es una instancia de AxiosError, puedes acceder a la propiedad response
@@ -143,9 +142,9 @@ async function deleteUser(idUser: string) {
 async function changeVerification(idUser: string) {
     try {
         const response = await __instanceAxios.put(
-            `${endpointsAPI.USER}/verified/${idUser}`
+            `${endpointsAPI.USER}/${idUser}/verified`
         );
-        console.log(response.data);
+
         return response.data;
     } catch (error) {
         // Si el error es una instancia de AxiosError, puedes acceder a la propiedad response

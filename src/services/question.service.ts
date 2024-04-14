@@ -81,7 +81,7 @@ async function deleteQuestion(id: string) {
 async function changeVerification(id: string) {
     try {
         const response = await __instanceAxios.put(
-            `${endpointsAPI.QUESTION}/verified/${id}`
+            `${endpointsAPI.QUESTION}/${id}/verified`
         );
         return response.data;
     } catch (error) {

@@ -12,8 +12,7 @@ async function getQuestionsGame({ category, limit }: GameQuery) {
         const response = await __instanceAxios.get(
             `${endpointsAPI.GAME}/questions/${category}/${limit}`
         );
-        console.log(response);
-
+        
         return response.data.data as Array<IQuestionId>;
     } catch (error) {
         // Si el error es una instancia de AxiosError, puedes acceder a la propiedad response
