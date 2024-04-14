@@ -14,10 +14,20 @@ export const config = {
  */
 export const __instanceAxios = axios.create({
     baseURL: config.URL_API,
-    headers: {
-        Authorization: `Bearer ${loadStateTokenLocalStorage() ?? ""}`,
-    },
     //withCredentials: true,
+});
+
+/**
+ * Hago uso de un interceptor para verificar el token almacenado en el cliente cada que se realiza una petición a la APIF
+ */
+__instanceAxios.interceptors.request.use((axiosConf) => {
+    const token = loadStateTokenLocalStorage();
+
+    if (token) {
+        axiosConf.headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    return axiosConf;
 });
 
 /**
