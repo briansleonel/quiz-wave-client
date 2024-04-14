@@ -9,6 +9,7 @@ import { Title } from "../../../components/Layout/TitleSubtitle";
 import Pagination from "../../../components/Table/Pagination";
 import FiltersCollection from "../../../components/Filter/FiltersCollection";
 import { useAppSelector } from "../../../store/hooks.redux";
+import Loader from "../../../components/Loader/Loader";
 
 export default function CollectionPage() {
     const collectionFilters = useAppSelector(
@@ -45,26 +46,36 @@ export default function CollectionPage() {
         <>
             <ContainerUtil>
                 <Title>Colecciones</Title>
+                <FiltersCollection />
                 {error && error instanceof Error ? (
                     <AlertDanger>Error: {error.message}</AlertDanger>
                 ) : isLoading ? (
-                    <div>Caargando...</div>
+                    <div className="h-36">
+                        <Loader style="black" />
+                    </div>
                 ) : data && pagination ? (
                     <>
-                        <FiltersCollection />
-                        <section className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-                            {data.data.map((collection) => (
-                                <CollectionCard
-                                    key={collection._id}
-                                    collection={collection}
-                                />
-                            ))}
-                        </section>
+                        {data.data.length > 0 ? (
+                            <>
+                                <section className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                                    {data.data.map((collection) => (
+                                        <CollectionCard
+                                            key={collection._id}
+                                            collection={collection}
+                                        />
+                                    ))}
+                                </section>
 
-                        <Pagination
-                            pagination={pagination}
-                            setPagination={setPagination}
-                        />
+                                <Pagination
+                                    pagination={pagination}
+                                    setPagination={setPagination}
+                                />
+                            </>
+                        ) : (
+                            <span className="text-neutral-500 uppercase">
+                                No se encontraron resultados
+                            </span>
+                        )}
                     </>
                 ) : null}
             </ContainerUtil>

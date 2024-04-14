@@ -4,6 +4,8 @@ import ButtonPrimary from "../../Button/ButtonPrimary";
 import { toastInformation } from "../../Sonner/sonner.toast";
 import { useForm, FormProvider } from "react-hook-form";
 import InputFormContext from "../Input/InputFormContext";
+import { useState } from "react";
+import LoaderCircle from "../../Loader/LoaderCircle";
 
 interface Inputs {
     username: string;
@@ -15,9 +17,16 @@ export default function LoginForm() {
 
     const loginMutation = useLoginMutation();
 
+    const [loading, setLoading] = useState(false);
+
     const handleSubmit = formMethods.handleSubmit(
         async (formData) => {
-            await loginMutation.mutateAsync(formData);
+            if (!loading) {
+                setLoading(true);
+                await loginMutation.mutateAsync(formData).catch(() => {
+                    setLoading(false);
+                });
+            }
         },
         (err) => {
             toastInformation("Ingrese sus credenciales");
@@ -48,7 +57,13 @@ export default function LoginForm() {
                     className="mt-6"
                 />
 
-                <ButtonPrimary className="mt-6">Ingresar</ButtonPrimary>
+                <ButtonPrimary
+                    className={`w-full mt-6 flex justify-center gap-3 text-neutral-100 ${
+                        !loading ? "" : "!bg-blue-500"
+                    }`}
+                >
+                    {loading ? <LoaderCircle /> : "Ingresar"}
+                </ButtonPrimary>
             </form>
         </FormProvider>
     );

@@ -6,8 +6,6 @@ import { getTimeAgo } from "../../libs/getTimeAgo";
 import { useNavigate } from "react-router-dom";
 import { useDeleteCollection } from "../../hooks/collections/useCollectionMutation";
 import { socket } from "../../socket";
-import { useAppDispatch } from "../../store/hooks.redux";
-import { quizSetQuestions } from "../../store/features/quiz.slice";
 
 interface Props {
     collection: ICollectionWithUpdatedAt;
@@ -15,7 +13,6 @@ interface Props {
 
 export default function CollectionCard({ collection }: Props) {
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
     const { deleteCollection } = useDeleteCollection();
 
     const goToEdit = (id: string) => {

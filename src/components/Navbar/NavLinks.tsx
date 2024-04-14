@@ -11,14 +11,15 @@ import {
 import { NavLink } from "../../types/util";
 import { useAppSelector } from "../../store/hooks.redux";
 import { Role } from "../../libs/enums/role.enum";
+import routes from "../../libs/routes";
 
 const menuItems: Array<NavLink> = [
-    { name: "Dashboard", icon: House, href: "/dashboard" },
-    { name: "Categorías", icon: Diagram2Fill, href: "/dashboard/category" },
-    { name: "Preguntas", icon: Journals, href: "/dashboard/question" },
-    { name: "Colecciones", icon: Collection, href: "/dashboard/collection" },
-    { name: "Usuarios", icon: PeopleFill, href: "/dashboard/user" },
-    { name: "Mi cuenta", icon: GearFill, href: "/dashboard/account" },
+    { name: "Inicio", icon: House, href: routes.dashboard },
+    { name: "Categorías", icon: Diagram2Fill, href: routes.categories },
+    { name: "Preguntas", icon: Journals, href: routes.questions },
+    { name: "Colecciones", icon: Collection, href: routes.collections },
+    { name: "Usuarios", icon: PeopleFill, href: routes.users },
+    { name: "Mi cuenta", icon: GearFill, href: routes.account },
 ];
 
 export default function NavLinks({

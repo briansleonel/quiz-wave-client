@@ -12,6 +12,7 @@ import {
     useDeleteQuestionMutation,
 } from "../../../hooks/questions/useQuestion";
 import AlertDanger from "../../Alerts/Alert";
+import Loader from "../../Loader/Loader";
 
 export default function TableQuestions() {
     const navigate = useNavigate();
@@ -53,27 +54,32 @@ export default function TableQuestions() {
             {error && error instanceof Error ? (
                 <AlertDanger>Error: {error.message}</AlertDanger>
             ) : isLoading ? (
-                <p>Cargando data table...</p>
-            ) : (
-                <div className="w-full">
-                    {/*isFetching ? <div>Refreshing...</div> : null*/}
-                    {/** Muestro los datos de la tabla */}
-                    {data ? (
-                        <TableGeneric
-                            columnsDef={columnDefinition}
-                            data={data.data}
-                        />
-                    ) : null}
-
-                    {/** Muestro la paginación de datos */}
-                    {pagination ? (
-                        <Pagination
-                            pagination={pagination}
-                            setPagination={setPagination}
-                        />
-                    ) : null}
+                <div className="h-36">
+                    <Loader style="black" />
                 </div>
-            )}
+            ) : data && pagination ? (
+                <>
+                    {data.data.length > 0 ? (
+                        <>
+                            {/** Muestro los datos de la tabla */}
+                            <TableGeneric
+                                columnsDef={columnDefinition}
+                                data={data.data}
+                            />
+
+                            {/** Muestro la paginación de datos */}
+                            <Pagination
+                                pagination={pagination}
+                                setPagination={setPagination}
+                            />
+                        </>
+                    ) : (
+                        <span className="text-neutral-500 uppercase">
+                            No se encontraron resultados
+                        </span>
+                    )}
+                </>
+            ) : null}
         </>
     );
 }
