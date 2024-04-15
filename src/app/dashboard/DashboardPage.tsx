@@ -21,31 +21,31 @@ export default function DashboardPage() {
             <section className="w-full grid grid-cols-1 md:grid-cols-2 gap-8">
                 <Link
                     to={routes.collections}
-                    className="w-full p-4 md:p-8 bg-indigo-700 hover:bg-indigo-700/95 shadow-lg text-white text-center rounded text-5xl uppercase font-light flex items-center justify-center gap-6 transition-all duration-500"
+                    className="w-full p-4 md:p-8 bg-indigo-700 hover:bg-indigo-700/95 shadow-lg text-white text-center rounded text-2xl md:text-5xl uppercase font-light flex items-center justify-center gap-6 transition-all duration-500"
                 >
-                    <Collection />
+                    <Collection className="h-full" />
                     Colecciones
                 </Link>
                 <Link
                     to={routes.questions}
-                    className="w-full p-4 md:p-8 bg-emerald-600 hover:bg-emerald-600/95 shadow-lg text-white text-center rounded text-5xl uppercase font-light flex items-center justify-center gap-6 transition-all duration-500"
+                    className="w-full p-4 md:p-8 bg-emerald-600 hover:bg-emerald-600/95 shadow-lg text-white text-center rounded text-2xl md:text-5xl uppercase font-light flex items-center justify-center gap-6 transition-all duration-500"
                 >
-                    <Journal />
+                    <Journal className="h-full" />
                     Preguntas
                 </Link>
                 <Link
                     to={routes.categories}
-                    className="w-full p-4 md:p-8 bg-rose-600 hover:bg-rose-600/90 shadow-lg text-white text-center rounded text-5xl uppercase font-light flex items-center justify-center gap-6 transition-all duration-500"
+                    className="w-full p-4 md:p-8 bg-rose-600 hover:bg-rose-600/90 shadow-lg text-white text-center rounded text-2xl md:text-5xl uppercase font-light flex items-center justify-center gap-6 transition-all duration-500"
                 >
-                    <Diagram2Fill />
+                    <Diagram2Fill className="h-full" />
                     Categorías
                 </Link>
                 {user.role === Role.ADMIN ? (
                     <Link
                         to={routes.users}
-                        className="w-full p-4 md:p-8 bg-neutral-900 hover:bg-neutral-800 shadow-lg text-white text-center rounded text-5xl uppercase font-light flex items-center justify-center gap-6 transition-all duration-500"
+                        className="w-full p-4 md:p-8 bg-neutral-900 hover:bg-neutral-800 shadow-lg text-white text-center rounded text-2xl md:text-5xl uppercase font-light flex items-center justify-center gap-6 transition-all duration-500"
                     >
-                        <PeopleFill />
+                        <PeopleFill className="h-full" />
                         Usuarios
                     </Link>
                 ) : null}
