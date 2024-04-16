@@ -30,7 +30,7 @@ export default function RankingModerator({
 
     return (
         <main className="flex flex-col w-full h-screen transition-all justify-between">
-            <h2 className="bg-white p-8 text-center text-4xl font-bold">
+            <h2 className="bg-white p-8 text-center text-4xl font-bold relative">
                 Marcador
             </h2>
 

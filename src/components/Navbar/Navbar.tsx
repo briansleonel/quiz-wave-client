@@ -21,7 +21,7 @@ export default function Navbar() {
                         className="flex items-center h-full cursor-pointe text-2xl font-light gap-4 text-white hover:text-white hover:no-underline"
                     >
                         <img src={logo} alt="" className="w-8 h-8" />
-                        <span>Quizz Game</span>
+                        <span>Quizz Wave</span>
                     </Link>
 
                     <ButtonPrimary
