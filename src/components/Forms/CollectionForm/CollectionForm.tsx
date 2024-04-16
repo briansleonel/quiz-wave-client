@@ -16,6 +16,7 @@ import {
     useCreateCollection,
     useUpdateCollection,
 } from "../../../hooks/collections/useCollectionMutation";
+import { socket } from "../../../socket";
 
 interface Props {
     collection?: ICollectionWithUpdatedAt;
@@ -39,6 +40,18 @@ export default function CollectionForm({ edit, collection }: Props) {
     const [questions, setQuestions] = useState<Array<ICollectionQuestion>>(
         collection ? collection.questions : []
     );
+
+    const handleStart = () => {
+        if (collection) {
+            // redirecciono a la página del lobby
+            navigate({
+                pathname: "/lobby",
+                search: `?collection=${collection._id}`,
+            });
+            // realizo la conexión al socket
+            socket.connect().emit("room:create", collection._id);
+        }
+    };
 
     /**
      * Permite cambiar el nombre y descripción de la colección actual
@@ -196,7 +209,10 @@ export default function CollectionForm({ edit, collection }: Props) {
 
                 <div className="flex flex-col gap-2 mt-4">
                     {edit && (
-                        <ButtonPrimary className="text-sm font-medium tracking-wider">
+                        <ButtonPrimary
+                            className="text-sm font-medium tracking-wider"
+                            onClick={handleStart}
+                        >
                             Empezar
                         </ButtonPrimary>
                     )}
@@ -227,7 +243,7 @@ export default function CollectionForm({ edit, collection }: Props) {
                 </div>
 
                 <div className="flex flex-col gap-4">
-                    {questions.length > 0 ?
+                    {questions.length > 0 ? (
                         questions.map((question, index) => (
                             <QuestionCollectionCard
                                 key={index}
@@ -236,7 +252,12 @@ export default function CollectionForm({ edit, collection }: Props) {
                                 question={question}
                                 index={index}
                             />
-                        )) : <div className="w-full bg-white text-neutral-600 border p-8 text-center rounded uppercase text-sm">No hay preguntas</div>}
+                        ))
+                    ) : (
+                        <div className="w-full bg-white text-neutral-600 border p-8 text-center rounded uppercase text-sm">
+                            No hay preguntas
+                        </div>
+                    )}
                 </div>
             </section>
         </main>
