@@ -3,6 +3,7 @@ import { Check, X } from "react-bootstrap-icons";
 import GroupButtonActions from "../GroupButtonActions";
 import { IQuestionId } from "../../../types/question";
 import ModalShowQuestion from "../../Modals/ModalShowQuestion";
+import confirmAlert from "../../../libs/confirmAlert";
 
 export function getColumnDefinitionQuestion({
     handleChangeVerification,
@@ -13,6 +14,20 @@ export function getColumnDefinitionQuestion({
     handleChangeVerification: (id: string) => void;
     handleEdit: (id: string) => void;
 }): Array<ColumnDef<IQuestionId>> {
+    const confirmDelete = (id: string) => {
+        confirmAlert({
+            handler: () => handleDelete(id),
+            title: "¿Eliminar pregunta?",
+        });
+    };
+
+    const confirmUpdate = (id: string) => {
+        confirmAlert({
+            handler: () => handleEdit(id),
+            title: "¿Editar pregunta?",
+        });
+    };
+
     return [
         {
             cell: (row) => (
@@ -62,8 +77,8 @@ export function getColumnDefinitionQuestion({
                         handleChangeVerification={() =>
                             handleChangeVerification(id)
                         }
-                        handleDelete={() => handleDelete(id)}
-                        handleEdit={() => handleEdit(id)}
+                        handleDelete={() => confirmDelete(id)}
+                        handleEdit={() => confirmUpdate(id)}
                         id={id}
                         verified={verified}
                     />

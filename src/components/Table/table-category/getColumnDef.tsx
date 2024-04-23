@@ -3,6 +3,7 @@ import { IQuestionCategory } from "../../../types/questionCategory";
 import ModalCategory from "../../Modals/ModalCategory";
 import ButtonPrimary from "../../Button/ButtonPrimary";
 import { Trash3Fill } from "react-bootstrap-icons";
+import confirmAlert from "../../../libs/confirmAlert";
 
 export function getColumnDefinitionCategory({
     handleDelete,
@@ -19,6 +20,13 @@ export function getColumnDefinitionCategory({
         },
     ];
 
+    const confirmDelete = (id: string) => {
+        confirmAlert({
+            handler: () => handleDelete(id),
+            title: "¿Eliminar categoría?",
+        });
+    };
+
     const actionsColumn: ColumnDef<IQuestionCategory> = {
         cell: (row) => {
             const id = row.row.original._id;
@@ -29,7 +37,7 @@ export function getColumnDefinitionCategory({
                     <ButtonPrimary
                         className="bg-red-600 hover:bg-red-500"
                         title="Eliminar"
-                        onClick={() => handleDelete(id)}
+                        onClick={() => confirmDelete(id)}
                     >
                         <Trash3Fill />
                     </ButtonPrimary>

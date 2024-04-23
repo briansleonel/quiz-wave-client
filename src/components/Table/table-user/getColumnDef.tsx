@@ -2,11 +2,19 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Check, X } from "react-bootstrap-icons";
 import GroupButtonActions from "../GroupButtonActions";
 import { IUser } from "../../../types/user";
+import confirmAlert from "../../../libs/confirmAlert";
 
 export function getColumnDefinition(
     handleDeleteUser: (id: string) => void,
     handleChangeVerificationUser: (id: string) => void
 ): Array<ColumnDef<IUser>> {
+    const confirmDelete = (id: string) => {
+        confirmAlert({
+            handler: () => handleDeleteUser(id),
+            title: "¿Eliminar usuario?",
+        });
+    };
+
     return [
         {
             accessorFn: (row) => `${row.lastName}, ${row.firstName}`,
@@ -50,7 +58,7 @@ export function getColumnDefinition(
                 return (
                     <GroupButtonActions
                         handleChangeVerification={handleChangeVerificationUser}
-                        handleDelete={handleDeleteUser}
+                        handleDelete={() => confirmDelete(id)}
                         handleEdit={() => {}}
                         id={id}
                         verified={verified}

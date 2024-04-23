@@ -9,6 +9,7 @@ import {
 import ModalDialog from "./ModalDialog";
 import { IQuestionId } from "../../types/question";
 import ButtonPrimary from "../Button/ButtonPrimary";
+import confirmAlert from "../../libs/confirmAlert";
 
 export default function ModalShowQuestion({
     question,
@@ -28,6 +29,20 @@ export default function ModalShowQuestion({
     function openModal() {
         setIsOpen(true);
     }
+
+    const confirmDelete = (id: string) => {
+        confirmAlert({
+            handler: () => handleDelete(id),
+            title: "¿Eliminar pregunta?",
+        });
+    };
+
+    const confirmUpdate = (id: string) => {
+        confirmAlert({
+            handler: () => handleEdit(id),
+            title: "¿Editar pregunta?",
+        });
+    };
 
     return (
         <>
@@ -94,7 +109,7 @@ export default function ModalShowQuestion({
                         <ButtonPrimary
                             className="bg-red-600 hover:bg-red-500 flex justify-center items-center gap-2 w-full text-sm"
                             title="Eliminar"
-                            onClick={() => handleDelete(question._id)}
+                            onClick={() => confirmDelete(question._id)}
                         >
                             <Trash3Fill />
                             <span>Eliminar</span>
@@ -102,13 +117,13 @@ export default function ModalShowQuestion({
                         <ButtonPrimary
                             className="bg-yellow-500 hover:bg-yellow-400 flex justify-center items-center gap-2 w-full text-sm"
                             title="Editar"
-                            onClick={() => handleEdit(question._id)}
+                            onClick={() => confirmUpdate(question._id)}
                         >
                             <PencilSquare />
                             <span>Editar</span>
                         </ButtonPrimary>
                         <ButtonPrimary
-                            className=" flex justify-center items-center gap-2 w-full text-sm"
+                            className=" flex justify-center items-center gap-2 w-full text-sm bg-neutral-600 hover:bg-neutral-800"
                             title="Volver atrás"
                             onClick={() => closeModal()}
                         >
