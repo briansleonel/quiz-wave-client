@@ -40,7 +40,7 @@ export default function useQuestionForm({
     const inputQuestion = useFormInput(question ? question.question : "");
     const inputOptions = useFormInput("");
     const inputDescription = useFormTextArea(
-        question ? question.description : ""
+        question && question.description ? question.description : ""
     );
 
     // Select category

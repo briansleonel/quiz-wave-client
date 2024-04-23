@@ -1,10 +1,9 @@
-
 import { isAxiosError } from "axios";
 import { Verified } from "../libs/enums/filter.enum";
 import { APIResponse, PaginationFetch } from "../types/api";
 import { getQueryQuestion } from "../libs/query.question";
 import { __instanceAxios, endpointsAPI } from "../config/config";
-import { IQuestion, IQuestionId } from "../types/question";
+import { IQuestion, IQuestionCategoryString, IQuestionId, IQuestionIdCategoryString } from "../types/question";
 
 export interface QueryFetchQuestion extends PaginationFetch {
     verified: Verified;
@@ -124,7 +123,7 @@ async function getQuestion(id: string) {
     }
 }
 
-async function addQuestion(question: IQuestion) {
+async function addQuestion(question: IQuestionCategoryString) {
     try {
         const response = await __instanceAxios.post(
             `${endpointsAPI.QUESTION}`,
@@ -132,6 +131,8 @@ async function addQuestion(question: IQuestion) {
         );
         return response.data as APIResponse<IQuestionId>;
     } catch (error) {
+        console.log(error);
+
         // Si el error es una instancia de AxiosError, puedes acceder a la propiedad response
         if (isAxiosError(error)) {
             //Si la respuesta tiene un código de estado, significa que la API respondió con un error HTTP
@@ -148,7 +149,7 @@ async function addQuestion(question: IQuestion) {
     }
 }
 
-async function updateQuestion(question: IQuestionId) {
+async function updateQuestion(question: IQuestionIdCategoryString) {
     try {
         const response = await __instanceAxios.put(
             `${endpointsAPI.QUESTION}/${question._id}`,

@@ -2,7 +2,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import questionService from "../../services/question.service";
 import { toastError, toastSuccess } from "../../components/Sonner/sonner.toast";
 import { useNavigate } from "react-router-dom";
-import { IQuestion, IQuestionId } from "../../types/question";
+import {
+    IQuestionCategoryString,
+    IQuestionIdCategoryString,
+} from "../../types/question";
 
 const PATH_NAVIGATION = "/dashboard/question/";
 
@@ -95,11 +98,13 @@ export function useQuestion() {
     const updateMutation = useUpdateQuestionMutation();
     const addMutation = useAddQuestionMutation();
 
-    async function handlerUpdateQuestion(questionUpdate: IQuestionId) {
+    async function handlerUpdateQuestion(
+        questionUpdate: IQuestionIdCategoryString
+    ) {
         await updateMutation.mutateAsync(questionUpdate);
     }
 
-    async function handlerAddQuestion(question: IQuestion) {
+    async function handlerAddQuestion(question: IQuestionCategoryString) {
         await addMutation.mutateAsync(question);
     }
 
