@@ -6,6 +6,7 @@ import { ICollectionQuestion } from "../../../types/question";
 import Timer from "../Timer/Timer";
 import ShowQuestion from "../ShowQuestion/ShowQuestion";
 import OptionQuiz from "../OptionQuiz/OptionQuiz";
+import { useAppSelector } from "../../../store/hooks.redux";
 
 interface Props {
     showOptions: boolean;
@@ -22,16 +23,25 @@ export default function QuestionAndOptions({
     showCorrect,
     showOptions,
 }: Props) {
+    const { currentQuestion, questions } = useAppSelector(
+        (state) => state.quiz
+    );
+
     const showRanking = () => {
         socket.emit("quiz:get-ranking-moderator");
     };
 
     return (
         <main
-            className={`flex flex-col w-full h-screen transition-all ${
+            className={`flex flex-col w-full h-screen transition-all relative ${
                 showOptions ? "justify-between" : "justify-center"
             }`}
         >
+            {!showOptions && (
+                <span className="absolute top-4 left-4 bg-violet-700 text-white p-3 px-8 text-3xl font-bold rounded-full shadow-lg">
+                    {currentQuestion + 1} de {questions.length}
+                </span>
+            )}
             {/** Question */}
             <div>
                 <ShowQuestion
@@ -63,7 +73,7 @@ export default function QuestionAndOptions({
 
             {/** Options of question */}
             {showOptions && (
-                <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
                     {question.options.map((o, i) => (
                         <OptionQuiz
                             className={`${optionsModel[i].color} ${

@@ -18,7 +18,15 @@ export interface IQuestion extends Omit<ICollectionQuestion, "duration"> {
     verified?: boolean;
 }
 
+export interface IQuestionCategoryString extends IQuestion {
+    category: string;
+}
+
 export interface IQuestionId extends IQuestion {
+    _id: string;
+}
+
+export interface IQuestionIdCategoryString extends IQuestionCategoryString {
     _id: string;
 }
 

@@ -6,8 +6,7 @@ import { getTimeAgo } from "../../libs/getTimeAgo";
 import { useNavigate } from "react-router-dom";
 import { useDeleteCollection } from "../../hooks/collections/useCollectionMutation";
 import { socket } from "../../socket";
-import { useAppDispatch } from "../../store/hooks.redux";
-import { quizSetQuestions } from "../../store/features/quiz.slice";
+import confirmAlert from "../../libs/confirmAlert";
 
 interface Props {
     collection: ICollectionWithUpdatedAt;
@@ -15,22 +14,33 @@ interface Props {
 
 export default function CollectionCard({ collection }: Props) {
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
     const { deleteCollection } = useDeleteCollection();
 
     const goToEdit = (id: string) => {
-        navigate("/dashboard/collection/" + id);
+        confirmAlert({
+            handler: () => navigate("/dashboard/collection/" + id),
+            title: "¿Editar colección?",
+        });
     };
 
     const handleDeleteCollection = (id: string) => {
-        deleteCollection(id);
+        confirmAlert({
+            handler: () => deleteCollection(id),
+            title: "Eliminar colección?",
+        });
     };
 
     const handleStart = (id: string) => {
-        // redirecciono a la página del lobby
-        navigate({ pathname: "/lobby", search: `?collection=${id}` });
-        // realizo la conexión al socket
-        socket.connect().emit("room:create", collection._id);
+        confirmAlert({
+            handler: () => {
+                // redirecciono a la página del lobby
+                navigate({ pathname: "/lobby", search: `?collection=${id}` });
+                // realizo la conexión al socket
+                socket.connect().emit("room:create", collection._id);
+            },
+            title: "Empezar wave?",
+            icon: "question"
+        });
     };
 
     return (

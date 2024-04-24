@@ -21,6 +21,7 @@ export function TextArea({ inputProps, name, className, placeholder }: Props) {
             )}
             rows={3}
             {...inputProps}
+            autoComplete="off"
         ></textarea>
     );
 }

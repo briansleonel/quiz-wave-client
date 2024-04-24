@@ -1,4 +1,9 @@
-import { IQuestion, IQuestionId } from "../types/question";
+import {
+    IQuestion,
+    IQuestionCategoryString,
+    IQuestionId,
+    IQuestionIdCategoryString,
+} from "../types/question";
 import { IQuestionCategory } from "../types/questionCategory";
 import { loadStateAuthLocalStorage } from "./state.localstorage";
 
@@ -17,8 +22,8 @@ export function convertToQuestion({
     description: string;
     user?: string;
 }) {
-    const newQuestion: IQuestion = {
-        category: category,
+    const newQuestion: IQuestionCategoryString = {
+        category: category._id,
         question: question,
         description: description,
         options: orderOptions(options, correctOption),
@@ -46,9 +51,9 @@ export function convertToQuestionwithId({
     description: string;
     user: string;
 }) {
-    const newQuestion: IQuestionId = {
+    const newQuestion: IQuestionIdCategoryString = {
         _id: id,
-        category: category,
+        category: category._id,
         question: question,
         description: description,
         options: orderOptions(options, correctOption),

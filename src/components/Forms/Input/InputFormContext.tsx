@@ -24,12 +24,13 @@ export default function InputFormContext({
             id={name}
             type={type}
             placeholder={placeholder}
-            className={`w-full px-2 py-1 transition-colors ease-in-out duration-500 outline-none rounded-md text-gray-950 border border-gray-400 bg-zinc-100 focus:border-violet-900 ${
+            className={`w-full px-2 py-1 transition-colors ease-in-out duration-500 outline-none rounded text-lg text-gray-950 border border-gray-400 bg-zinc-100 focus:border-violet-900 ${
                 className ? className : ""
             }`}
             {...register(name, {
                 required: true,
             })}
+            autoComplete="off"
         />
     );
 }

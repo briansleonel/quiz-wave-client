@@ -47,7 +47,6 @@ export function useDeleteCollection() {
     const queryClient = useQueryClient();
     const { mutate: deleteCollection } = useMutation({
         mutationFn: collectionService.deleteCollection,
-
         onSuccess: (data) => {
             toastSuccess(data.message as string);
             // Actualizar los datos después de eliminar un usuario

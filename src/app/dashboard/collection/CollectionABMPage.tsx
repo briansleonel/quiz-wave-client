@@ -1,12 +1,11 @@
 import { useParams } from "react-router-dom";
 import ContainerUtil from "../../../components/Layout/ContainerUtil";
 import { useState, useEffect } from "react";
-import { ICollectionWithUpdatedAt } from "../../../types/collection";
-import { ICollectionQuestionWithId } from "../../../types/question";
 import { useQuery } from "@tanstack/react-query";
 import collectionService from "../../../services/collection.service";
 import CollectionForm from "../../../components/Forms/CollectionForm/CollectionForm";
 import AlertDanger from "../../../components/Alerts/Alert";
+import Loader from "../../../components/Loader/Loader";
 
 export default function CollectionABMPage() {
     const params = useParams<{ id: string }>();
@@ -29,7 +28,9 @@ export default function CollectionABMPage() {
             ) : error && error instanceof Error ? (
                 <AlertDanger>Error: {error.message}</AlertDanger>
             ) : isLoading ? (
-                <p>Cargando datos...</p>
+                <div className="h-36">
+                    <Loader style="black" />
+                </div>
             ) : data && edit ? (
                 <CollectionForm edit={edit} collection={data.data} />
             ) : null}

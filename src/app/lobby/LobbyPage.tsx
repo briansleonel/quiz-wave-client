@@ -101,7 +101,7 @@ export default function LobbyPage() {
                                     </ButtonTrivia>
                                 </div>
                             </section>
-                            <section className="w-full grid grid-cols-5 gap-12">
+                            <section className="w-full flex justify-center gap-8 flex-wrap">
                                 {players.map((p) => (
                                     <PlayerName player={p} key={p.socketId} />
                                 ))}

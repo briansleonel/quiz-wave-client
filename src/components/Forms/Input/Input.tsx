@@ -30,6 +30,7 @@ export const Input = ({
             id={name}
             placeholder={placeholder ?? ""}
             {...inputProps}
+            autoComplete="off"
         />
     );
 };

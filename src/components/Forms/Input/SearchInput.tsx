@@ -34,6 +34,7 @@ export const SearchInput = ({
                 name={name}
                 id={name}
                 {...inputProps}
+                autoComplete="off"
             />
             <button
                 className={`px-2 text-neutral-800 hover:bg-neutral-300 hover:text-neutral-950 rounded-e-md transition-colors ease-in-out duration-500 ${

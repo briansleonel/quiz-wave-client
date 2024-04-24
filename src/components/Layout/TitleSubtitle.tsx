@@ -5,9 +5,9 @@ interface Props {
 
 export function Title({ className, children }: Props) {
     return (
-        <div className="w-full border-b-2 border-violet-500 pb-1">
+        <div className="w-full border-b-2 border-violet-500 pb-1 md:pb-2">
             <h1
-                className={`font-medium text-2xl text-center uppercase text-neutral-800 ${
+                className={`font-medium text-2xl md:text-4xl text-center uppercase text-neutral-800 ${
                     className ? className : ""
                 }`}
             >

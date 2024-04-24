@@ -7,6 +7,7 @@ import { PencilSquare, Plus } from "react-bootstrap-icons";
 import ModalDialog from "./ModalDialog";
 import Label from "../Forms/Label/Label";
 import { Input } from "../Forms/Input/Input";
+import confirmAlert from "../../libs/confirmAlert";
 
 export default function ModalCategory({
     category,
@@ -34,10 +35,14 @@ export default function ModalCategory({
     async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (edit && category)
-            await handlerUpdateCategory({
-                _id: category._id,
-                name: inputNameCategory.inputProps.value,
-            }).then(() => closeAndClean());
+            confirmAlert({
+                handler: async () =>
+                    await handlerUpdateCategory({
+                        _id: category._id,
+                        name: inputNameCategory.inputProps.value,
+                    }).then(() => closeAndClean()),
+                title: "¿Actualizar categoría?",
+            });
         else
             await handlerAddCategory({
                 _id: "",
@@ -92,14 +97,17 @@ export default function ModalCategory({
                     </Label>
                     <div className="flex flex-col gap-2 md:flex-row mt-6">
                         <ButtonPrimary
-                            className="bg-red-600 hover:bg-red-500 text-sm w-full"
+                            className="bg-neutral-600 hover:bg-neutral-800 text-sm font-normal w-full"
                             type="button"
                             onClick={closeModal}
                         >
                             Cancelar
                         </ButtonPrimary>
 
-                        <ButtonPrimary className="text-sm w-full" type="submit">
+                        <ButtonPrimary
+                            className="text-sm font-normal w-full"
+                            type="submit"
+                        >
                             Guardar {edit ? " cambios" : ""}
                         </ButtonPrimary>
                     </div>
