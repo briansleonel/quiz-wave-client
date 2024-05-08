@@ -89,11 +89,11 @@ export default function HomePage() {
                 </main>
 
                 <div className="sm:mx-auto text-center w-full mt-8 text-sm text-neutral-100 absolute bottom-4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <p className="">
+                    <p className="font-light md:font-normal">
                         Creá tu propia WAVE{" "}
                         <NavLink
                             to="/login"
-                            className="text-indigo-500 font-bold "
+                            className="text-indigo-500 font-medium md:font-bold "
                         >
                             aquí
                         </NavLink>
