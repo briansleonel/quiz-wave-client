@@ -2,10 +2,8 @@ import RegisterForm from "../../components/Forms/RegisterForm/RegisterForm";
 
 export default function RegisterPage() {
     return (
-        <div className="w-full min-h-[calc(100vh-4rem)] flex items-center justify-center px-0 py-4 md:p-12 bg-stone-100">
-            <div className="w-full md:w-5/12 lg:w-4/12 p-8 bg-white rounded-md shadow drop-shadow-xl">
-                <RegisterForm />
-            </div>
+        <div className="flex min-h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+            <RegisterForm />
         </div>
     );
 }

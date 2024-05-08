@@ -24,7 +24,7 @@ export default function InputFormContext({
             id={name}
             type={type}
             placeholder={placeholder}
-            className={`w-full px-2 py-1 transition-colors ease-in-out duration-500 outline-none rounded text-lg text-gray-950 border border-gray-400 bg-zinc-100 focus:border-violet-900 ${
+            className={`w-full  transition-colors ease-in-out duration-500 outline-none border text-gray-900 border-gray-300 focus:border-violet-700 rounded-md px-2 py-1.5  shadow-sm ${
                 className ? className : ""
             }`}
             {...register(name, {

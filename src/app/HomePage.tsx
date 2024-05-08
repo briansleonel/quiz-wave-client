@@ -5,10 +5,11 @@ import BackgroundQuiz from "../components/Trivia/BackgroundQuiz";
 import { socket } from "../socket";
 import { useEffect, useState } from "react";
 import { toastInformation } from "../components/Sonner/sonner.toast";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks.redux";
 import { playerSetCode } from "../store/features/player.slice";
 import LoaderCircle from "../components/Loader/LoaderCircle";
+import { PersonFill } from "react-bootstrap-icons";
 
 export default function HomePage() {
     const navigate = useNavigate();
@@ -86,6 +87,26 @@ export default function HomePage() {
                         </ButtonTrivia>
                     </form>
                 </main>
+
+                <div className="sm:mx-auto text-center w-full mt-8 text-sm text-neutral-100 absolute bottom-4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <p className="">
+                        Creá tu propia WAVE{" "}
+                        <NavLink
+                            to="/login"
+                            className="text-indigo-500 font-bold "
+                        >
+                            aquí
+                        </NavLink>
+                    </p>
+                </div>
+
+                <NavLink
+                    to="/login"
+                    className="absolute top-4 right-4 py-1 px-3 bg-indigo-500 text-white rounded text-xs flex gap-1 items-center"
+                    title="Ingresar a su cuenta"
+                >
+                    <PersonFill />
+                </NavLink>
             </BackgroundQuiz>
         </>
     );
